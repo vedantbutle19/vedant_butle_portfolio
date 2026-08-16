@@ -35,9 +35,11 @@ import councilMembers from "@/assets/council members.jpeg";
 import icar1 from "@/assets/icar1.png";
 import icar2 from "@/assets/icar2.png";
 import icar3 from "@/assets/icar3.png";
+import soil1 from "@/assets/soil_1.jpg";
 
 import pneumonia1 from "@/assets/pneumonia1.png";
 import pneumonia2 from "@/assets/pneumonia2.png";
+import pneumoniaProject1 from "@/assets/pneumonia_1.jpg";
 
 import ppekit3 from "@/assets/ppekit3.jpg";
 import ppekit4 from "@/assets/ppekit4.jpg";
@@ -1246,9 +1248,9 @@ const projects: ProjectItem[] = [
     desc: "Decision support system for soil erosion assessment using RUSLE with R programming and data analysis.",
     summary:
       "Developed at ICAR-NBSS&LUP, this GIS & R-based Decision Support System calculates soil erosion risks using Revised Universal Soil Loss Equation (RUSLE) modeling. It translates satellite geospatial data into actionable conservation strategies for agricultural planners.",
-    img: icar3,
+    img: soil1,
 
-    images: [icar3, icar2, icar1],
+    images: [soil1, icar3, icar2, icar1],
     tags: ["R Language", "RUSLE", "Data Science", "GIS"],
     category: "AI",
     features: [
@@ -1285,9 +1287,9 @@ const projects: ProjectItem[] = [
     desc: "AI-based pneumonia detection model that analyzes medical images to assist with early diagnosis.",
     summary:
       "An artificial intelligence solution leveraging deep convolutional neural networks to classify chest X-ray images. Built to assist radiographers in high-volume clinics with fast, high-accuracy preliminary diagnostics.",
-    img: pneumonia1,
+    img: pneumoniaProject1,
 
-    images: [pneumonia1, pneumonia2],
+    images: [pneumoniaProject1, pneumonia1, pneumonia2],
     tags: ["Machine Learning", "Python", "Medical AI", "PyTorch"],
     category: "AI",
     features: [
