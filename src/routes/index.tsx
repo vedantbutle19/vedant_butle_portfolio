@@ -49,6 +49,7 @@ import ppekitMain from "@/assets/1763977201502.jpg";
 import aaplaShetkari1 from "@/assets/aaplashetkari1.png";
 import aaplaShetkari2 from "@/assets/aaplashetkari2.png";
 import aaplaShetkari3 from "@/assets/aaplashetkari3.png";
+import aaplaShetkariPoster from "@/assets/aapla_shetkari_poster.png";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { useState, useRef, type ReactNode } from "react";
@@ -1327,9 +1328,9 @@ const projects: ProjectItem[] = [
     desc: "Smart Farming & AI-Powered Agricultural Decision Support Platform.",
     summary:
       "comprehensive digital farming platform for Indian farmers, combining farmmanagement, crop monitoring, weather intelligence, AI- based agricultural assistance, financial tracking, government schemes, farming news, and field surveillance.",
-    img: aaplaShetkari1,
+    img: aaplaShetkariPoster,
 
-    images: [aaplaShetkari1, aaplaShetkari2, aaplaShetkari3],
+    images: [aaplaShetkariPoster, aaplaShetkari1, aaplaShetkari2, aaplaShetkari3],
     tags: ["LLM", "Agriculture", "Smart Farming", "Voice AI"],
     category: "UI",
     features: [
