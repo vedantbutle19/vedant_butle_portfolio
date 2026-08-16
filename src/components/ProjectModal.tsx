@@ -82,9 +82,7 @@ export function ProjectModal({ isOpen, onClose, project }: ProjectModalProps) {
   if (!project) return null;
 
   const galleryImages =
-    project.images && project.images.length > 0
-      ? project.images
-      : [project.img];
+    project.images && project.images.length > 0 ? project.images : [project.img];
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));

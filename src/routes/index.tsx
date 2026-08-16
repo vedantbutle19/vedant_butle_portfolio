@@ -183,13 +183,18 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/40 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#home" className="inline-flex items-center gap-3 text-lg font-bold text-foreground">
+        <a
+          href="#home"
+          className="inline-flex items-center gap-3 text-lg font-bold text-foreground"
+        >
           <img
             src={bunnyLogo}
             alt="Vedant Butle Portfolio"
             className="h-10 w-10 rounded-full object-cover"
           />
-          <span className="text-xl font-bold text-gradient animate-gradient">Vedant Butle Portfolio</span>
+          <span className="text-xl font-bold text-gradient animate-gradient">
+            Vedant Butle Portfolio
+          </span>
         </a>
         <nav className="hidden lg:block">
           <ul className="flex items-center gap-1">
@@ -217,9 +222,13 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
           aria-label="Toggle menu"
         >
           <div className="space-y-1.5">
-            <span className={`block h-0.5 w-6 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`} />
+            <span
+              className={`block h-0.5 w-6 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`}
+            />
             <span className={`block h-0.5 w-6 bg-current transition ${open ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 w-6 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`} />
+            <span
+              className={`block h-0.5 w-6 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`}
+            />
           </div>
         </button>
       </div>
@@ -265,7 +274,15 @@ function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }
   );
 }
 
-function SectionHeading({ eyebrow, title, subtitle }: { eyebrow?: string; title: string; subtitle?: string }) {
+function SectionHeading({
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}) {
   return (
     <div className="mx-auto mb-14 max-w-2xl text-center">
       {eyebrow && (
@@ -289,7 +306,11 @@ function Hero({ onViewResume }: { onViewResume: () => void }) {
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   return (
-    <section id="home" ref={ref} className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col items-center justify-center gap-10 px-6 py-20 lg:flex-row lg:gap-16">
+    <section
+      id="home"
+      ref={ref}
+      className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col items-center justify-center gap-10 px-6 py-20 lg:flex-row lg:gap-16"
+    >
       <motion.div style={{ y, opacity }} className="flex-1 space-y-6 text-center lg:text-left">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -322,8 +343,10 @@ function Hero({ onViewResume }: { onViewResume: () => void }) {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="max-w-xl text-base text-muted-foreground md:text-lg"
         >
-          Passionate AI & Frontend Developer with strong leadership, management, and project coordination experience. I transform ideas into intuitive, visually appealing digital experiences while effectively coordinating projects, leading teams, and turning concepts into impactful solutions.
-
+          Passionate AI & Frontend Developer with strong leadership, management, and project
+          coordination experience. I transform ideas into intuitive, visually appealing digital
+          experiences while effectively coordinating projects, leading teams, and turning concepts
+          into impactful solutions.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -409,7 +432,11 @@ function Hero({ onViewResume }: { onViewResume: () => void }) {
 
 /* ---------- About ---------- */
 const skills = [
-  {icon: BarChart3, title: "Data Analysis", desc: "Analyzing data to uncover insights and support data-driven decisions" },
+  {
+    icon: BarChart3,
+    title: "Data Analysis",
+    desc: "Analyzing data to uncover insights and support data-driven decisions",
+  },
   { icon: Code2, title: "Web Development", desc: "Building responsive, modern applications" },
   { icon: Brain, title: "Machine Learning", desc: "Implementing intelligent solutions" },
   { icon: Zap, title: "OpenCV Models", desc: "Real-time object detection" },
@@ -434,26 +461,33 @@ function About() {
         </Reveal>
         <div className="space-y-6">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-widest text-[var(--mint)]">About Me</span>
+            <span className="text-xs font-semibold uppercase tracking-widest text-[var(--mint)]">
+              About Me
+            </span>
             <h2 className="mt-2 text-4xl font-bold md:text-5xl">
-              Curious builder at the <span className="text-gradient animate-gradient">edge of AI</span>
+              Curious builder at the{" "}
+              <span className="text-gradient animate-gradient">edge of AI</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-muted-foreground">
-              B.Tech student specializing in Artificial Intelligence with hands-on experience in databases, machine learning, and web development. Skilled in C++, Python, SQL, Excel, generative AI, GIS, geospatial analysis and R development.
+              B.Tech student specializing in Artificial Intelligence with hands-on experience in
+              databases, machine learning, and web development. Skilled in C++, Python, SQL, Excel,
+              generative AI, GIS, geospatial analysis and R development.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="text-muted-foreground">
-              I bring strong skills in AI, machine learning, chatbot development, computer vision, and web development — with real-world project implementation.
+              I bring strong skills in AI, machine learning, chatbot development, computer vision,
+              and web development — with real-world project implementation.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <div className="flex items-start gap-3 rounded-2xl border border-border glass-card p-4">
               <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[var(--mint)]" />
               <p className="text-sm text-muted-foreground">
-                Deeply committed to my work — investing creativity and precision into every project to ensure a unique and effective user experience.
+                Deeply committed to my work — investing creativity and precision into every project
+                to ensure a unique and effective user experience.
               </p>
             </div>
           </Reveal>
@@ -507,18 +541,15 @@ const specialMoments: SpecialMoment[] = [
     badge: "High-Level AI Showcase",
     date: "2026",
     image: "/images/moments/gadkari_presentation.jpg",
-    images: [
-      "src/assets/nitin gadkari.jpeg",
-      "src/assets/nitin gadkari 2.PNG"
-    ],
+    images: ["src/assets/nitin gadkari.jpeg", "src/assets/nitin gadkari 2.PNG"],
     summary:
       "Privileged to present our startup concept inspired by the Government of India's Health Locker initiative to Hon'ble Union Minister Nitin Gadkari Sir. The solution focused on enabling secure, centralized, and accessible digital health records to strengthen India's digital healthcare ecosystem.",
 
     highlights: [
       "Presented startup concept to Hon'ble Union Minister Nitin Gadkari Sir",
       "Proposed a secure AI-enabled digital Health Locker solution for healthcare record management",
-      "Aligned with India's Digital Health Mission to improve accessibility and continuity of care"
-    ]
+      "Aligned with India's Digital Health Mission to improve accessibility and continuity of care",
+    ],
   },
   {
     id: "cultural-fest",
@@ -533,7 +564,7 @@ const specialMoments: SpecialMoment[] = [
       "src/assets/insight25.JPG",
       "src/assets/Screenshot 2026-08-05 153108.png",
       "src/assets/walk.jpeg",
-      "src/assets/insight25 2.JPG"
+      "src/assets/insight25 2.JPG",
     ],
     summary:
       "Elected as the cultural Coordinator for the college flagship annual cultural festival. Successfully led cross-functional student teams, managed event logistics, security, and stage schedules for 3,000+ student attendees and 120+ live stage performances.",
@@ -541,8 +572,8 @@ const specialMoments: SpecialMoment[] = [
       "Elected by faculty and student body to lead annual cultural festival",
       "Managed logistics, stage management, and safety for 3,000+ attendees",
       "Coordinated 120+ live music, dance, drama, and fine arts performances",
-      "Led a team of 110+ student committee heads seamlessly"
-    ]
+      "Led a team of 110+ student committee heads seamlessly",
+    ],
   },
   {
     id: "placement-coordinator",
@@ -554,7 +585,7 @@ const specialMoments: SpecialMoment[] = [
     images: [
       "src/assets/CDC coordinator.png",
       "src/assets/WhatsApp Image 2025-12-03 at 16.23.01_68a5aa43.jpg",
-      "src/assets/nss.jpg"
+      "src/assets/nss.jpg",
     ],
     summary:
       "Assigned as Placement Coordinator to bridge the gap between engineering candidates and top hiring recruiters. Facilitated campus recruitment drives, organized technical mock interviews, and assisted students in securing internships and career opportunities.",
@@ -562,8 +593,8 @@ const specialMoments: SpecialMoment[] = [
       "Served as official student liaison for visiting corporate recruitment teams",
       "Organized resume building, coding practice sessions, and mock technical interviews",
       "Coordinated campus drives resulting in higher student placement offers",
-      "Managed student data repositories and placement schedule communications"
-    ]
+      "Managed student data repositories and placement schedule communications",
+    ],
   },
   {
     id: "zindagii-song",
@@ -576,7 +607,7 @@ const specialMoments: SpecialMoment[] = [
 
     images: [
       "src/assets/Screenshot 2026-08-12 201056.png",
-      "src/assets/Screenshot 2026-08-12 203429.png"
+      "src/assets/Screenshot 2026-08-12 203429.png",
     ],
 
     summary:
@@ -584,16 +615,16 @@ const specialMoments: SpecialMoment[] = [
     highlights: [
       "Composed and wrote the original song 'Zindagii'",
       "Created the melody and lyrical concept from personal emotions and experiences",
-      "Performed 'Zindagii' on Radio Mirchi, making it a memorable milestone in my musical journey"
+      "Performed 'Zindagii' on Radio Mirchi, making it a memorable milestone in my musical journey",
     ],
 
     youtubeLink: "https://www.youtube.com/watch?v=nI_VClSU2nU",
 
     youtubeButton: {
       text: "🎵 Listen to Zindagii on YouTube",
-      url: "https://www.youtube.com/watch?v=nI_VClSU2nU"
-    }
-  }
+      url: "https://www.youtube.com/watch?v=nI_VClSU2nU",
+    },
+  },
 ];
 
 function MomentImageGallery({
@@ -695,14 +726,20 @@ function MomentImageGallery({
       </div>
 
       {images.length > 1 && (
-        <div className="mt-3 flex items-center justify-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="mt-3 flex items-center justify-center gap-1.5"
+          onClick={(e) => e.stopPropagation()}
+        >
           {images.map((_, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => setPhotoIndex(idx)}
-              className={`h-2 rounded-full transition-all ${idx === photoIndex ? "w-5 bg-[var(--mint)]" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground"
-                }`}
+              className={`h-2 rounded-full transition-all ${
+                idx === photoIndex
+                  ? "w-5 bg-[var(--mint)]"
+                  : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground"
+              }`}
               aria-label={`Go to photo ${idx + 1}`}
             />
           ))}
@@ -732,7 +769,8 @@ function SpecialMoments() {
     if (!scrollRef.current) return;
     const container = scrollRef.current;
     const width = container.clientWidth;
-    const target = direction === "left" ? container.scrollLeft - width : container.scrollLeft + width;
+    const target =
+      direction === "left" ? container.scrollLeft - width : container.scrollLeft + width;
     container.scrollTo({ left: target, behavior: "smooth" });
   };
 
@@ -857,10 +895,11 @@ function SpecialMoments() {
             key={moment.id}
             type="button"
             onClick={() => scrollToIndex(idx)}
-            className={`h-2.5 rounded-full transition-all ${idx === activeIndex
+            className={`h-2.5 rounded-full transition-all ${
+              idx === activeIndex
                 ? "w-8 bg-[var(--mint)]"
                 : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-              }`}
+            }`}
             aria-label={`Go to event ${idx + 1}`}
           />
         ))}
@@ -929,7 +968,7 @@ const experience: TimelineItem[] = [
     org: "Academic Research",
     period: "2024",
     desc: "Developed a pneumonia-detection ML model and an OpenCV-based safety-kit detection system deployed for real-time monitoring.",
-  }
+  },
 ];
 
 const academicMilestones: AcademicMilestone[] = [
@@ -944,7 +983,7 @@ const academicMilestones: AcademicMilestone[] = [
       "src/assets/batch2026.jpg",
       "src/assets/aiverse.jpeg",
       "src/assets/baitak.jpg",
-      "src/assets/baitak2.jpg"
+      "src/assets/baitak2.jpg",
     ],
     summary:
       "Specializing in Artificial Intelligence and Machine Learning. Acquired deep theoretical and practical knowledge in neural networks, computer vision, data structures, and software engineering principles through academic projects and lab research.",
@@ -952,9 +991,16 @@ const academicMilestones: AcademicMilestone[] = [
       "Built soil-erosion decision support system using RUSLE & R at ICAR-NBSS&LUP",
       "Developed real-time OpenCV safety-kit detection system",
       "Pneumonia detection ML model with high accuracy metric results",
-      "Published AI & Web development project showcases"
+      "Published AI & Web development project showcases",
     ],
-    skills: ["Artificial Intelligence", "Machine Learning", "Python & C++", "OpenCV", "Data Science", "React & Web Dev"]
+    skills: [
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Python & C++",
+      "OpenCV",
+      "Data Science",
+      "React & Web Dev",
+    ],
   },
   {
     id: "junior-college",
@@ -962,18 +1008,15 @@ const academicMilestones: AcademicMilestone[] = [
     org: "IINSIGHT Junior College, Nagpur",
     period: "2020 — 2022",
     icon: GraduationCap,
-    images: [
-      "src/assets/iinsight1.jpg",
-      "src/assets/iinsight2.avif"
-    ],
+    images: ["src/assets/iinsight1.jpg", "src/assets/iinsight2.avif"],
     summary:
       "Chose the Physics, Chemistry, and Mathematics (PCM) stream, developing analytical thinking, problem-solving skills, and a strong mathematical baseline required for advanced AI and engineering studies.",
     achievements: [
       "Completed Higher Secondary Education with top marks in Mathematics & Physics",
       "Participated in regional Science & Technology exhibitions",
-      "Developed early interest in programming and computer algorithms"
+      "Developed early interest in programming and computer algorithms",
     ],
-    skills: ["Physics & Mathematics", "Analytical Logic", "Scientific Method", "Problem Solving"]
+    skills: ["Physics & Mathematics", "Analytical Logic", "Scientific Method", "Problem Solving"],
   },
   {
     id: "schooling",
@@ -985,17 +1028,17 @@ const academicMilestones: AcademicMilestone[] = [
       "src/assets/swarneela.jpg",
       "src/assets/flag paraid.jpeg",
       "src/assets/batch ceremony.jpeg",
-      "src/assets/council members.jpeg"
+      "src/assets/council members.jpeg",
     ],
     summary:
       "Formative academic years focused on foundational STEM subjects, leadership skills, and extracurricular activities that built confidence, teamwork, and critical reasoning.",
     achievements: [
       "Secured academic excellence awards throughout secondary education",
       "Active participant in inter-school science competitions and debate clubs",
-      "Led school technology & academic group activities"
+      "Led school technology & academic group activities",
     ],
-    skills: ["Mathematics Basis", "Public Speaking", "Teamwork", "Academic Discipline"]
-  }
+    skills: ["Mathematics Basis", "Public Speaking", "Teamwork", "Academic Discipline"],
+  },
 ];
 
 function ExperienceEducation() {
@@ -1011,9 +1054,13 @@ function ExperienceEducation() {
       <div className="mt-10 grid gap-8 lg:grid-cols-2">
         <div id="experience" className="rounded-[2rem] border border-border glass-card p-6 lg:p-8">
           <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--mint)]">Experience</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--mint)]">
+              Experience
+            </p>
             <h3 className="mt-2 text-2xl font-semibold">Professional Journey</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Work and projects that shaped my skills.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Work and projects that shaped my skills.
+            </p>
           </div>
           <div className="space-y-5">
             {experience.map((e, i) => {
@@ -1046,9 +1093,13 @@ function ExperienceEducation() {
 
         <div id="education" className="rounded-[2rem] border border-border glass-card p-6 lg:p-8">
           <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--lavender)]">Education</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--lavender)]">
+              Education
+            </p>
             <h3 className="mt-2 text-2xl font-semibold">Academic Journey</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Click any milestone to view photos, achievements, and details.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Click any milestone to view photos, achievements, and details.
+            </p>
           </div>
           <div className="space-y-5">
             {academicMilestones.map((item, i) => {
@@ -1102,18 +1153,46 @@ function ExperienceEducation() {
 
 /* ---------- Services ---------- */
 const services = [
-  { icon: Bot, title: "AI Development", desc: "Custom AI solutions, ML models, and intelligent automation tailored to your business." },
-  { icon: Code2, title: "Web Development", desc: "Modern, responsive websites and applications built with the latest technologies." },
-  { icon: Smartphone, title: "Social Media Marketing", desc: "Engaging content and audience-building strategies that grow reach." },
-  { icon: Brain, title: "ML Consulting", desc: "Expert guidance on implementing ML solutions and AI strategy." },
-  { icon: Database, title: "Data Analytics", desc: "Turn raw data into actionable insights with analytics and visualization." },
-  { icon: ShieldCheck, title: "Real-Time Detection", desc: "Surveillance, traffic monitoring, face recognition, and safety compliance systems." },
+  {
+    icon: Bot,
+    title: "AI Development",
+    desc: "Custom AI solutions, ML models, and intelligent automation tailored to your business.",
+  },
+  {
+    icon: Code2,
+    title: "Web Development",
+    desc: "Modern, responsive websites and applications built with the latest technologies.",
+  },
+  {
+    icon: Smartphone,
+    title: "Social Media Marketing",
+    desc: "Engaging content and audience-building strategies that grow reach.",
+  },
+  {
+    icon: Brain,
+    title: "ML Consulting",
+    desc: "Expert guidance on implementing ML solutions and AI strategy.",
+  },
+  {
+    icon: Database,
+    title: "Data Analytics",
+    desc: "Turn raw data into actionable insights with analytics and visualization.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Real-Time Detection",
+    desc: "Surveillance, traffic monitoring, face recognition, and safety compliance systems.",
+  },
 ];
 
 function Services() {
   return (
     <section id="services" className="mx-auto max-w-7xl px-6 py-24">
-      <SectionHeading eyebrow="Services" title="What I do" subtitle="Specialized solutions tailored to your needs" />
+      <SectionHeading
+        eyebrow="Services"
+        title="What I do"
+        subtitle="Specialized solutions tailored to your needs"
+      />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((s, i) => (
           <Reveal key={s.title} delay={i * 0.05}>
@@ -1144,21 +1223,17 @@ const projects: ProjectItem[] = [
     summary:
       "Developed at ICAR-NBSS&LUP, this GIS & R-based Decision Support System calculates soil erosion risks using Revised Universal Soil Loss Equation (RUSLE) modeling. It translates satellite geospatial data into actionable conservation strategies for agricultural planners.",
     img: "/images/projects/soil_1.jpg",
-    images: [
-      "src/assets/icar3.png",
-      "src/assets/icar2.png",
-      "src/assets/icar1.png"
-    ],
+    images: ["src/assets/icar3.png", "src/assets/icar2.png", "src/assets/icar1.png"],
     tags: ["R Language", "RUSLE", "Data Science", "GIS"],
     category: "AI",
     features: [
       "Geospatial data ingestion and automated RUSLE factor calculation",
       "Interactive map overlays showing high soil-loss risk zones",
       "Automated PDF reporting for land use planners and policy makers",
-      "Integration with R Shiny dashboard for interactive scenario analysis"
+      "Integration with R Shiny dashboard for interactive scenario analysis",
     ],
     demoUrl: "#",
-    githubUrl: "https://github.com/vedantbutle19"
+    githubUrl: "https://github.com/vedantbutle19",
   },
   {
     id: "aarogyam",
@@ -1167,19 +1242,17 @@ const projects: ProjectItem[] = [
     summary:
       "Aarogyam is a modern electronic healthcare vault platform designed to streamline medical history, prescription sharing, and appointment tracking. It empowers patients with control over their health data while enabling doctors to access vital records with end-to-end encryption.",
     img: "/images/projects/aarogyam_1.jpg",
-    images: [
-      "/images/projects/aarogyam_1.jpg"
-    ],
+    images: ["/images/projects/aarogyam_1.jpg"],
     tags: ["Healthcare", "Web App", "UI/UX", "React"],
     category: "Web",
     features: [
       "Secure patient profile and medical record vault",
       "Doctor dashboard for real-time prescription and history access",
       "Encrypted cloud document storage & instant download",
-      "Responsive design with seamless dark/light mode UI"
+      "Responsive design with seamless dark/light mode UI",
     ],
     demoUrl: "#",
-    githubUrl: "https://github.com/vedantbutle19"
+    githubUrl: "https://github.com/vedantbutle19",
   },
   {
     id: "pneumonia-ai",
@@ -1188,20 +1261,17 @@ const projects: ProjectItem[] = [
     summary:
       "An artificial intelligence solution leveraging deep convolutional neural networks to classify chest X-ray images. Built to assist radiographers in high-volume clinics with fast, high-accuracy preliminary diagnostics.",
     img: "/images/projects/pneumonia_1.jpg",
-    images: [
-      "src/assets/pneumonia1.png",
-      "src/assets/pneumonia2.png"
-    ],
+    images: ["src/assets/pneumonia1.png", "src/assets/pneumonia2.png"],
     tags: ["Machine Learning", "Python", "Medical AI", "PyTorch"],
     category: "AI",
     features: [
       "Deep Learning classification pipeline trained on chest X-ray datasets",
       "Grad-CAM visual heatmaps highlighting affected lung regions",
       "Web interface for instant radiograph upload and inference",
-      "High accuracy and sensitivity metrics on validation benchmarks"
+      "High accuracy and sensitivity metrics on validation benchmarks",
     ],
     demoUrl: "#",
-    githubUrl: "https://github.com/vedantbutle19"
+    githubUrl: "https://github.com/vedantbutle19",
   },
   {
     id: "safety-kit",
@@ -1210,10 +1280,11 @@ const projects: ProjectItem[] = [
     summary:
       "A real-time computer vision system tailored for industrial safety compliance. Uses OpenCV and object detection models to monitor live camera streams and alert supervisors when helmets or high-visibility vests are missing.",
     img: "src/assets/ppekit5.jpg",
-    images: ["src/assets/1763977201502.jpg",
+    images: [
+      "src/assets/1763977201502.jpg",
       "src/assets/ppekit3.jpg",
       "src/assets/ppekit4.jpg",
-      "src/assets/ppekit5.jpg"
+      "src/assets/ppekit5.jpg",
     ],
     tags: ["OpenCV", "Computer Vision", "Safety", "Python"],
     category: "AI",
@@ -1221,10 +1292,10 @@ const projects: ProjectItem[] = [
       "Real-time multi-person safety gear tracking via video feeds",
       "Automated bounding boxes for helmets, vests, and safety goggles",
       "Instant alert logging and compliance dashboard",
-      "Optimized model inference for edge devices and IP cameras"
+      "Optimized model inference for edge devices and IP cameras",
     ],
     demoUrl: "#",
-    githubUrl: "https://github.com/vedantbutle19"
+    githubUrl: "https://github.com/vedantbutle19",
   },
   {
     id: "shetkari-llm",
@@ -1236,7 +1307,7 @@ const projects: ProjectItem[] = [
     images: [
       "src/assets/aaplashetkari1.png",
       "src/assets/aaplashetkari2.png",
-      "src/assets/aaplashetkari3.png"
+      "src/assets/aaplashetkari3.png",
     ],
     tags: ["LLM", "Agriculture", "Smart Farming", "Voice AI"],
     category: "UI",
@@ -1244,11 +1315,11 @@ const projects: ProjectItem[] = [
       "Natural language chat and voice query input in regional languages",
       "AI-driven diagnosis for crop diseases via user uploaded photos",
       "Real-time market price updates and local weather advisory",
-      "Intuitive high-contrast mobile interface tailored for rural users"
+      "Intuitive high-contrast mobile interface tailored for rural users",
     ],
     demoUrl: "#",
-    githubUrl: "https://github.com/vedantbutle19"
-  }
+    githubUrl: "https://github.com/vedantbutle19",
+  },
 ];
 
 const filters = ["All", "AI", "Web", "UI"] as const;
@@ -1271,10 +1342,11 @@ function Projects() {
           <button
             key={f}
             onClick={() => setActive(f)}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${active === f
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+              active === f
                 ? "border-[var(--mint)] bg-[var(--mint)]/15 text-[var(--mint)]"
                 : "border-border bg-card text-muted-foreground hover:text-foreground"
-              }`}
+            }`}
           >
             {f === "All" ? "All Projects" : `${f} Projects`}
           </button>
@@ -1359,7 +1431,9 @@ function Testimonials({ testimonials }: { testimonials: TestimonialItem[] }) {
               whileHover={{ y: -6 }}
               className="relative h-full rounded-2xl border border-border glass-card p-8"
             >
-              <div className="absolute -top-4 left-6 text-6xl leading-none text-[var(--mint)]/40">"</div>
+              <div className="absolute -top-4 left-6 text-6xl leading-none text-[var(--mint)]/40">
+                "
+              </div>
               <p className="relative text-base text-muted-foreground">{t.text}</p>
               <div className="mt-6 flex items-center gap-4 border-t border-border pt-6">
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-[var(--gradient-brand)] text-sm font-bold text-primary-foreground">
@@ -1377,7 +1451,6 @@ function Testimonials({ testimonials }: { testimonials: TestimonialItem[] }) {
     </section>
   );
 }
-
 
 /* ---------- Contact ---------- */
 function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialItem) => void }) {
@@ -1413,7 +1486,11 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
 
   return (
     <section id="contact" className="mx-auto max-w-7xl px-6 py-24">
-      <SectionHeading eyebrow="Contact" title="Let's Build the Future Together" subtitle="Have a project in mind? Let's create something extraordinary." />
+      <SectionHeading
+        eyebrow="Contact"
+        title="Let's Build the Future Together"
+        subtitle="Have a project in mind? Let's create something extraordinary."
+      />
       <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr]">
         <Reveal>
           <form
@@ -1451,7 +1528,13 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
               type="submit"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.02]"
             >
-              {sent ? "Message sent ✓" : (<>Send Message <Send className="h-4 w-4" /></>)}
+              {sent ? (
+                "Message sent ✓"
+              ) : (
+                <>
+                  Send Message <Send className="h-4 w-4" />
+                </>
+              )}
             </motion.button>
           </form>
         </Reveal>

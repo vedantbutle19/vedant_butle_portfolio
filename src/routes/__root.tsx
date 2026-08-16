@@ -87,7 +87,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Vedant Butle Portfolio" },
       {
         property: "og:description",
-        content: "Frontend developer & AI engineer crafting intuitive, intelligent digital experiences.",
+        content:
+          "Frontend developer & AI engineer crafting intuitive, intelligent digital experiences.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

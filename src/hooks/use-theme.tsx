@@ -8,7 +8,9 @@ function getInitial(): Theme {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
-  } catch {}
+  } catch {
+    // Ignore localStorage read errors (e.g. disabled or SSR)
+  }
   if (window.matchMedia?.("(prefers-color-scheme: light)").matches) return "light";
   return "dark";
 }
@@ -33,7 +35,9 @@ export function useTheme() {
     apply(t);
     try {
       window.localStorage.setItem(STORAGE_KEY, t);
-    } catch {}
+    } catch {
+      // Ignore localStorage write errors
+    }
   };
 
   const toggle = () => setTheme(theme === "dark" ? "light" : "dark");

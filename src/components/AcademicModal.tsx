@@ -10,6 +10,7 @@ import {
   Sparkles,
   Maximize2,
   Minimize2,
+  type LucideIcon,
 } from "lucide-react";
 
 export type AcademicMilestone = {
@@ -17,7 +18,7 @@ export type AcademicMilestone = {
   title: string;
   org: string;
   period: string;
-  icon?: any;
+  icon?: LucideIcon;
   images: string[];
   summary: string;
   achievements?: string[];
@@ -162,9 +163,7 @@ export function AcademicModal({ isOpen, onClose, milestone }: AcademicModalProps
                   </h3>
                 </div>
               </div>
-              <p className="text-sm font-medium text-[var(--mint)] md:text-base">
-                {milestone.org}
-              </p>
+              <p className="text-sm font-medium text-[var(--mint)] md:text-base">{milestone.org}</p>
             </div>
 
             {/* Photo Gallery Carousel */}
