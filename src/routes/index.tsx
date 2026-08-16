@@ -1,3 +1,52 @@
+// Special Moments
+import gadkari1 from "@/assets/nitin gadkari.jpeg";
+import gadkari2 from "@/assets/nitin gadkari 2.PNG";
+
+import certificate from "@/assets/certificate.PNG";
+import culturalScreenshot1 from "@/assets/Screenshot 2026-08-05 153136.png";
+import insight25 from "@/assets/insight25.JPG";
+import culturalScreenshot2 from "@/assets/Screenshot 2026-08-05 153108.png";
+import walk from "@/assets/walk.jpeg";
+import insight25_2 from "@/assets/insight252.JPG";
+
+import cdcCoordinator from "@/assets/CDC coordinator.png";
+import placementPhoto from "@/assets/WhatsApp Image 2025-12-03 at 16.23.01_68a5aa43.jpg";
+import nss from "@/assets/nss.jpg";
+
+import zindagii1 from "@/assets/Screenshot 2026-08-12 201056.png";
+import zindagii2 from "@/assets/Screenshot 2026-08-12 203429.png";
+
+// Education
+import btech1 from "@/assets/537154818_1284932906981488_120772090917446355_n.jpg";
+import batch2026 from "@/assets/batch2026.jpg";
+import aiverse from "@/assets/aiverse.jpeg";
+import baitak from "@/assets/baitak.jpg";
+import baitak2 from "@/assets/baitak2.jpg";
+
+import iinsight1 from "@/assets/iinsight1.jpg";
+import iinsight2 from "@/assets/iinsight2.avif";
+
+import swarneela from "@/assets/swarneela.jpg";
+import flagParade from "@/assets/flag paraid.jpeg";
+import batchCeremony from "@/assets/batch ceremony.jpeg";
+import councilMembers from "@/assets/council members.jpeg";
+
+// Projects
+import icar1 from "@/assets/icar1.png";
+import icar2 from "@/assets/icar2.png";
+import icar3 from "@/assets/icar3.png";
+
+import pneumonia1 from "@/assets/pneumonia1.png";
+import pneumonia2 from "@/assets/pneumonia2.png";
+
+import ppekit3 from "@/assets/ppekit3.jpg";
+import ppekit4 from "@/assets/ppekit4.jpg";
+import ppekit5 from "@/assets/ppekit5.jpg";
+import ppekitMain from "@/assets/1763977201502.jpg";
+
+import aaplaShetkari1 from "@/assets/aaplashetkari1.png";
+import aaplaShetkari2 from "@/assets/aaplashetkari2.png";
+import aaplaShetkari3 from "@/assets/aaplashetkari3.png";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { useState, useRef, type ReactNode } from "react";
@@ -540,8 +589,8 @@ const specialMoments: SpecialMoment[] = [
     category: "VIP Presentation",
     badge: "High-Level AI Showcase",
     date: "2026",
-    image: "/images/moments/gadkari_presentation.jpg",
-    images: ["src/assets/nitin gadkari.jpeg", "src/assets/nitin gadkari 2.PNG"],
+    image: gadkari1,
+    images: [gadkari1, gadkari2],
     summary:
       "Privileged to present our startup concept inspired by the Government of India's Health Locker initiative to Hon'ble Union Minister Nitin Gadkari Sir. The solution focused on enabling secure, centralized, and accessible digital health records to strengthen India's digital healthcare ecosystem.",
 
@@ -557,15 +606,8 @@ const specialMoments: SpecialMoment[] = [
     category: "Leadership & Event Management",
     badge: "3,000+ Students | 120+ Performances",
     date: "2024 — 2025",
-    image: "/images/moments/cultural_fest.jpg",
-    images: [
-      "src/assets/certificate.PNG",
-      "src/assets/Screenshot 2026-08-05 153136.png",
-      "src/assets/insight25.JPG",
-      "src/assets/Screenshot 2026-08-05 153108.png",
-      "src/assets/walk.jpeg",
-      "src/assets/insight25 2.JPG",
-    ],
+    image: culturalScreenshot1,
+    images: [certificate, culturalScreenshot1, insight25, culturalScreenshot2, walk, insight25_2],
     summary:
       "Elected as the cultural Coordinator for the college flagship annual cultural festival. Successfully led cross-functional student teams, managed event logistics, security, and stage schedules for 3,000+ student attendees and 120+ live stage performances.",
     highlights: [
@@ -581,12 +623,8 @@ const specialMoments: SpecialMoment[] = [
     category: "Academic & Career Leadership",
     badge: "Campus Recruitment & Career Development",
     date: "2024 — 2026",
-    image: "src/assets/CDC coordinator.png",
-    images: [
-      "src/assets/CDC coordinator.png",
-      "src/assets/WhatsApp Image 2025-12-03 at 16.23.01_68a5aa43.jpg",
-      "src/assets/nss.jpg",
-    ],
+    image: cdcCoordinator,
+    images: [cdcCoordinator, placementPhoto, nss],
     summary:
       "Assigned as Placement Coordinator to bridge the gap between engineering candidates and top hiring recruiters. Facilitated campus recruitment drives, organized technical mock interviews, and assisted students in securing internships and career opportunities.",
     highlights: [
@@ -603,12 +641,9 @@ const specialMoments: SpecialMoment[] = [
     badge: "Original Song",
     date: "2024",
 
-    image: "src/assets/Screenshot 2026-08-12 201056.png",
+    image: zindagii1,
 
-    images: [
-      "src/assets/Screenshot 2026-08-12 201056.png",
-      "src/assets/Screenshot 2026-08-12 203429.png",
-    ],
+    images: [zindagii1, zindagii2],
 
     summary:
       "A special creative moment from my journey — composing and writing 'Zindagii', an original melody love song inspired by emotions, memories, and the beautiful uncertainty of life and love. This musical journey became even more memorable when I had the opportunity to perform the song on Radio Mirchi, turning a personal creation into a shared moment with a wider audience.",
@@ -978,13 +1013,7 @@ const academicMilestones: AcademicMilestone[] = [
     org: "College of Engineering",
     period: "2022 — 2026",
     icon: GraduationCap,
-    images: [
-      "src/assets/537154818_1284932906981488_120772090917446355_n.jpg",
-      "src/assets/batch2026.jpg",
-      "src/assets/aiverse.jpeg",
-      "src/assets/baitak.jpg",
-      "src/assets/baitak2.jpg",
-    ],
+    images: [btech1, batch2026, aiverse, baitak, baitak2],
     summary:
       "Specializing in Artificial Intelligence and Machine Learning. Acquired deep theoretical and practical knowledge in neural networks, computer vision, data structures, and software engineering principles through academic projects and lab research.",
     achievements: [
@@ -1008,7 +1037,7 @@ const academicMilestones: AcademicMilestone[] = [
     org: "IINSIGHT Junior College, Nagpur",
     period: "2020 — 2022",
     icon: GraduationCap,
-    images: ["src/assets/iinsight1.jpg", "src/assets/iinsight2.avif"],
+    images: [iinsight1, iinsight2],
     summary:
       "Chose the Physics, Chemistry, and Mathematics (PCM) stream, developing analytical thinking, problem-solving skills, and a strong mathematical baseline required for advanced AI and engineering studies.",
     achievements: [
@@ -1024,12 +1053,7 @@ const academicMilestones: AcademicMilestone[] = [
     org: "Swarnleela International School",
     period: "2016 — 2020",
     icon: GraduationCap,
-    images: [
-      "src/assets/swarneela.jpg",
-      "src/assets/flag paraid.jpeg",
-      "src/assets/batch ceremony.jpeg",
-      "src/assets/council members.jpeg",
-    ],
+    images: [swarneela, flagParade, batchCeremony, councilMembers],
     summary:
       "Formative academic years focused on foundational STEM subjects, leadership skills, and extracurricular activities that built confidence, teamwork, and critical reasoning.",
     achievements: [
@@ -1222,8 +1246,9 @@ const projects: ProjectItem[] = [
     desc: "Decision support system for soil erosion assessment using RUSLE with R programming and data analysis.",
     summary:
       "Developed at ICAR-NBSS&LUP, this GIS & R-based Decision Support System calculates soil erosion risks using Revised Universal Soil Loss Equation (RUSLE) modeling. It translates satellite geospatial data into actionable conservation strategies for agricultural planners.",
-    img: "/images/projects/soil_1.jpg",
-    images: ["src/assets/icar3.png", "src/assets/icar2.png", "src/assets/icar1.png"],
+    img: icar3,
+
+    images: [icar3, icar2, icar1],
     tags: ["R Language", "RUSLE", "Data Science", "GIS"],
     category: "AI",
     features: [
@@ -1260,8 +1285,9 @@ const projects: ProjectItem[] = [
     desc: "AI-based pneumonia detection model that analyzes medical images to assist with early diagnosis.",
     summary:
       "An artificial intelligence solution leveraging deep convolutional neural networks to classify chest X-ray images. Built to assist radiographers in high-volume clinics with fast, high-accuracy preliminary diagnostics.",
-    img: "/images/projects/pneumonia_1.jpg",
-    images: ["src/assets/pneumonia1.png", "src/assets/pneumonia2.png"],
+    img: pneumonia1,
+
+    images: [pneumonia1, pneumonia2],
     tags: ["Machine Learning", "Python", "Medical AI", "PyTorch"],
     category: "AI",
     features: [
@@ -1279,13 +1305,9 @@ const projects: ProjectItem[] = [
     desc: "Computer vision solution using OpenCV to detect whether workers are wearing required safety gear.",
     summary:
       "A real-time computer vision system tailored for industrial safety compliance. Uses OpenCV and object detection models to monitor live camera streams and alert supervisors when helmets or high-visibility vests are missing.",
-    img: "src/assets/ppekit5.jpg",
-    images: [
-      "src/assets/1763977201502.jpg",
-      "src/assets/ppekit3.jpg",
-      "src/assets/ppekit4.jpg",
-      "src/assets/ppekit5.jpg",
-    ],
+    img: ppekit5,
+
+    images: [ppekitMain, ppekit3, ppekit4, ppekit5],
     tags: ["OpenCV", "Computer Vision", "Safety", "Python"],
     category: "AI",
     features: [
@@ -1303,12 +1325,9 @@ const projects: ProjectItem[] = [
     desc: "Smart Farming & AI-Powered Agricultural Decision Support Platform.",
     summary:
       "comprehensive digital farming platform for Indian farmers, combining farmmanagement, crop monitoring, weather intelligence, AI- based agricultural assistance, financial tracking, government schemes, farming news, and field surveillance.",
-    img: "src/assets/aaplashetkari1.png",
-    images: [
-      "src/assets/aaplashetkari1.png",
-      "src/assets/aaplashetkari2.png",
-      "src/assets/aaplashetkari3.png",
-    ],
+    img: aaplaShetkari1,
+
+    images: [aaplaShetkari1, aaplaShetkari2, aaplaShetkari3],
     tags: ["LLM", "Agriculture", "Smart Farming", "Voice AI"],
     category: "UI",
     features: [
