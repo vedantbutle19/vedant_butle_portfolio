@@ -100,7 +100,6 @@ import {
 import heroImg from "@/assets/vedant-hero.jpg";
 import aboutImg from "@/assets/vedant-about.jpg";
 import resumePdfFile from "@/assets/vedant vivek butle resume 2026.pdf";
-import bunnyLogo from "@/assets/bunny_developer_logo_pro (1).png";
 
 export const resumeUrl = resumePdfFile;
 const resumeDownloadName = "Vedant_Butle_Resume.pdf";
@@ -233,56 +232,51 @@ function ResumeModal({
 function Header({ onViewResume }: { onViewResume: () => void }) {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/40 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a
-          href="#home"
-          className="inline-flex items-center gap-3 text-lg font-bold text-foreground"
-        >
-          <img
-            src={bunnyLogo}
-            alt="Vedant Butle Portfolio"
-            className="h-10 w-10 rounded-full object-cover"
-          />
-          <span className="text-xl font-bold text-gradient animate-gradient">
-            Vedant Butle Portfolio
-          </span>
-        </a>
-        <nav className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/60 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3.5">
+        {/* Desktop Navbar: Spans from starting to end */}
+        <nav className="hidden lg:flex w-full items-center justify-between">
+          <ul className="flex w-full items-center justify-between gap-1 xl:gap-2">
             {navLinks.map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  className="rounded-full px-3.5 py-2 text-[0.95rem] xl:text-base font-semibold tracking-wide text-muted-foreground transition-all duration-200 hover:bg-secondary/80 hover:text-foreground hover:scale-105"
                 >
                   {l.label}
                 </a>
               </li>
             ))}
-            <li className="ml-2">
+            <li>
               <ThemeToggle />
             </li>
           </ul>
         </nav>
-        <div className="flex items-center gap-2 lg:hidden">
-          <ThemeToggle />
-        </div>
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="lg:hidden rounded-md p-2 text-foreground"
-          aria-label="Toggle menu"
-        >
-          <div className="space-y-1.5">
-            <span
-              className={`block h-0.5 w-6 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`}
-            />
-            <span className={`block h-0.5 w-6 bg-current transition ${open ? "opacity-0" : ""}`} />
-            <span
-              className={`block h-0.5 w-6 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`}
-            />
+
+        {/* Mobile Navbar Header */}
+        <div className="flex w-full items-center justify-between lg:hidden">
+          <span className="text-base font-bold text-foreground">Menu</span>
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="rounded-md p-2 text-foreground"
+              aria-label="Toggle menu"
+            >
+              <div className="space-y-1.5">
+                <span
+                  className={`block h-0.5 w-6 bg-current transition ${open ? "translate-y-2 rotate-45" : ""}`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-current transition ${open ? "opacity-0" : ""}`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-current transition ${open ? "-translate-y-2 -rotate-45" : ""}`}
+                />
+              </div>
+            </button>
           </div>
-        </button>
+        </div>
       </div>
       <AnimatePresence>
         {open && (
@@ -290,15 +284,15 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden border-t border-border bg-background/80 backdrop-blur-xl"
+            className="lg:hidden overflow-hidden border-t border-border bg-background/95 backdrop-blur-xl"
           >
-            <ul className="flex flex-col p-4">
+            <ul className="flex flex-col p-4 space-y-1">
               {navLinks.map((l) => (
                 <li key={l.href}>
                   <a
                     onClick={() => setOpen(false)}
                     href={l.href}
-                    className="block rounded-md px-3 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    className="block rounded-lg px-4 py-3 text-base font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
                   >
                     {l.label}
                   </a>
