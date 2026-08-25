@@ -59,6 +59,7 @@ import {
   Mail,
   Github,
   Linkedin,
+  Instagram,
   Dribbble,
   ChevronDown,
   Palette,
@@ -422,14 +423,24 @@ function Hero({ onViewResume }: { onViewResume: () => void }) {
           className="flex items-center justify-center gap-3 lg:justify-start"
         >
           {[
-            { href: "mailto:vedantvbutle@gmail.com", icon: Mail },
-            { href: "https://github.com/vedantbutle19", icon: Github },
-            { href: "https://www.linkedin.com/in/vedant-butle-a4966126a/", icon: Linkedin },
-            { href: "#", icon: Dribbble },
-          ].map(({ href, icon: Icon }, i) => (
+            { href: "mailto:vedantvbutle@gmail.com", icon: Mail, label: "Email" },
+            { href: "https://github.com/vedantbutle19", icon: Github, label: "GitHub" },
+            {
+              href: "https://www.linkedin.com/in/vedant-butle-a4966126a/",
+              icon: Linkedin,
+              label: "LinkedIn",
+            },
+            {
+              href: "https://www.instagram.com/vedantt_butlee/",
+              icon: Instagram,
+              label: "Instagram",
+            },
+            { href: "#", icon: Dribbble, label: "Dribbble" },
+          ].map(({ href, icon: Icon, label }, i) => (
             <a
               key={i}
               href={href}
+              aria-label={label}
               target="_blank"
               rel="noopener noreferrer"
               className="grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-all hover:-translate-y-1 hover:border-[var(--mint)] hover:text-[var(--mint)]"
@@ -767,11 +778,10 @@ function MomentImageGallery({
               key={idx}
               type="button"
               onClick={() => setPhotoIndex(idx)}
-              className={`h-2 rounded-full transition-all ${
-                idx === photoIndex
+              className={`h-2 rounded-full transition-all ${idx === photoIndex
                   ? "w-5 bg-[var(--mint)]"
                   : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground"
-              }`}
+                }`}
               aria-label={`Go to photo ${idx + 1}`}
             />
           ))}
@@ -927,11 +937,10 @@ function SpecialMoments() {
             key={moment.id}
             type="button"
             onClick={() => scrollToIndex(idx)}
-            className={`h-2.5 rounded-full transition-all ${
-              idx === activeIndex
+            className={`h-2.5 rounded-full transition-all ${idx === activeIndex
                 ? "w-8 bg-[var(--mint)]"
                 : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-            }`}
+              }`}
             aria-label={`Go to event ${idx + 1}`}
           />
         ))}
@@ -1358,11 +1367,10 @@ function Projects() {
           <button
             key={f}
             onClick={() => setActive(f)}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
-              active === f
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${active === f
                 ? "border-[var(--mint)] bg-[var(--mint)]/15 text-[var(--mint)]"
                 : "border-border bg-card text-muted-foreground hover:text-foreground"
-            }`}
+              }`}
           >
             {f === "All" ? "All Projects" : `${f} Projects`}
           </button>
@@ -1563,14 +1571,24 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
               </p>
               <div className="mt-6 flex gap-3">
                 {[
-                  { href: "https://github.com/vedantbutle19", icon: Github },
-                  { href: "#", icon: Twitter },
-                  { href: "https://www.linkedin.com/in/vedant-butle-a4966126a/", icon: Linkedin },
-                  { href: "mailto:vedantvbutle@gmail.com", icon: Mail },
-                ].map(({ href, icon: Icon }, i) => (
+                  { href: "https://github.com/vedantbutle19", icon: Github, label: "GitHub" },
+                  { href: "#", icon: Twitter, label: "Twitter" },
+                  {
+                    href: "https://www.linkedin.com/in/vedant-butle-a4966126a/",
+                    icon: Linkedin,
+                    label: "LinkedIn",
+                  },
+                  {
+                    href: "https://www.instagram.com/vedantt_butlee/",
+                    icon: Instagram,
+                    label: "Instagram",
+                  },
+                  { href: "mailto:vedantvbutle@gmail.com", icon: Mail, label: "Email" },
+                ].map(({ href, icon: Icon, label }, i) => (
                   <a
                     key={i}
                     href={href}
+                    aria-label={label}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="grid h-12 w-12 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-all hover:-translate-y-1 hover:border-[var(--mint)] hover:text-[var(--mint)]"
