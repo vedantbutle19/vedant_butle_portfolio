@@ -85,6 +85,8 @@ import {
   ChevronRight,
   Maximize2,
   Music2,
+  Volume2,
+  VolumeX,
   X,
   BarChart3,
 } from "lucide-react";
@@ -196,6 +198,78 @@ function ThemeToggle({ className = "" }: { className?: string }) {
   );
 }
 
+function MusicToggle({ className = "" }: { className?: string }) {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio("/portfolio-music.mp3");
+    audio.loop = true;
+    audio.volume = 0.35;
+    audioRef.current = audio;
+
+    const tryPlay = () => {
+      audio
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => setIsPlaying(false));
+    };
+
+    tryPlay();
+
+    const handleFirstInteraction = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {});
+      }
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
+    };
+
+    window.addEventListener("click", handleFirstInteraction);
+    window.addEventListener("touchstart", handleFirstInteraction);
+    window.addEventListener("keydown", handleFirstInteraction);
+
+    return () => {
+      audio.pause();
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("touchstart", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {});
+    }
+  };
+
+  return (
+    <button
+      onClick={toggleMusic}
+      aria-label={isPlaying ? "Mute background music" : "Play background music"}
+      title={isPlaying ? "Mute background music" : "Play background music"}
+      className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-300 ${
+        isPlaying
+          ? "border-[var(--mint)]/60 bg-[var(--mint)]/15 text-[var(--mint)] shadow-[0_0_12px_rgba(74,222,128,0.25)]"
+          : "border-border bg-secondary/40 text-muted-foreground hover:bg-secondary hover:text-foreground"
+      } ${className}`}
+    >
+      {isPlaying ? <Volume2 className="h-4 w-4 animate-pulse" /> : <VolumeX className="h-4 w-4" />}
+    </button>
+  );
+}
+
 function ResumeModal({
   open,
   onOpenChange,
@@ -248,7 +322,8 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
                 </a>
               </li>
             ))}
-            <li>
+            <li className="flex items-center gap-2">
+              <MusicToggle />
               <ThemeToggle />
             </li>
           </ul>
@@ -257,7 +332,8 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
         {/* Mobile Navbar Header */}
         <div className="flex w-full items-center justify-between lg:hidden">
           <span className="text-base font-bold text-foreground">Menu</span>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <MusicToggle />
             <ThemeToggle />
             <button
               onClick={() => setOpen((v) => !v)}
@@ -778,10 +854,11 @@ function MomentImageGallery({
               key={idx}
               type="button"
               onClick={() => setPhotoIndex(idx)}
-              className={`h-2 rounded-full transition-all ${idx === photoIndex
+              className={`h-2 rounded-full transition-all ${
+                idx === photoIndex
                   ? "w-5 bg-[var(--mint)]"
                   : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground"
-                }`}
+              }`}
               aria-label={`Go to photo ${idx + 1}`}
             />
           ))}
@@ -937,10 +1014,11 @@ function SpecialMoments() {
             key={moment.id}
             type="button"
             onClick={() => scrollToIndex(idx)}
-            className={`h-2.5 rounded-full transition-all ${idx === activeIndex
+            className={`h-2.5 rounded-full transition-all ${
+              idx === activeIndex
                 ? "w-8 bg-[var(--mint)]"
                 : "w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-              }`}
+            }`}
             aria-label={`Go to event ${idx + 1}`}
           />
         ))}
@@ -1367,10 +1445,11 @@ function Projects() {
           <button
             key={f}
             onClick={() => setActive(f)}
-            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${active === f
+            className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
+              active === f
                 ? "border-[var(--mint)] bg-[var(--mint)]/15 text-[var(--mint)]"
                 : "border-border bg-card text-muted-foreground hover:text-foreground"
-              }`}
+            }`}
           >
             {f === "All" ? "All Projects" : `${f} Projects`}
           </button>
