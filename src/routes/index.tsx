@@ -52,7 +52,7 @@ import aaplaShetkari3 from "@/assets/aaplashetkari3.png";
 import aaplaShetkariPoster from "@/assets/aapla_shetkari_poster.png";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { useState, useRef, type ReactNode } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import {
   ArrowRight,
   Download,
