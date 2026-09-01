@@ -145,9 +145,98 @@ const initialTestimonials: TestimonialItem[] = [
   },
 ];
 
+/* ---------- Portfolio Loading Screen ---------- */
+function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // Ensure music starts playing immediately on loading screen mount
+    getGlobalAudio();
+
+    const startTime = Date.now();
+    const duration = 2400; // ~2.4s loading duration
+
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setProgress(pct);
+
+      if (pct >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          onComplete?.();
+        }, 250);
+      }
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [onComplete]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background px-4 select-none"
+    >
+      {/* Ambient background glowing orbs matching portfolio theme */}
+      <div className="pointer-events-none absolute -top-32 -left-32 h-[450px] w-[450px] rounded-full bg-[var(--mint)] opacity-20 blur-3xl animate-float" />
+      <div className="pointer-events-none absolute -bottom-32 -right-32 h-[500px] w-[500px] rounded-full bg-[var(--lavender)] opacity-15 blur-3xl animate-float [animation-delay:2s]" />
+
+      <div className="relative flex flex-col items-center text-center max-w-sm w-full">
+        {/* Animated Emblem with glowing gradient ring */}
+        <div className="relative mb-6 flex h-20 w-20 items-center justify-center">
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-[var(--mint)] via-[var(--lavender)] to-[var(--peach)] opacity-80 blur-md animate-pulse" />
+          <div className="relative flex h-full w-full items-center justify-center rounded-2xl border border-border bg-card/90 backdrop-blur-md shadow-xl text-foreground font-extrabold text-2xl tracking-wider">
+            <span className="text-gradient">VB</span>
+          </div>
+        </div>
+
+        {/* Name and Title */}
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Vedant Butle
+        </h1>
+        <p className="mt-1 text-xs sm:text-sm font-medium tracking-wide text-muted-foreground flex items-center gap-1.5">
+          <span>Frontend Developer</span>
+          <span className="h-1 w-1 rounded-full bg-[var(--mint)]" />
+          <span>AI Engineer</span>
+        </p>
+
+        {/* Ambient Sound Indicator */}
+        <div className="mt-6 flex items-center gap-2 h-7 px-3.5 py-1 rounded-full border border-border bg-secondary/40 backdrop-blur-sm text-xs font-medium text-[var(--mint)]">
+          <Music2 className="h-3.5 w-3.5 animate-bounce" />
+          <div className="flex items-end gap-0.5 h-3">
+            <span className="w-0.5 bg-[var(--mint)] h-full animate-pulse" />
+            <span className="w-0.5 bg-[var(--mint)] h-2/3 animate-pulse [animation-delay:0.2s]" />
+            <span className="w-0.5 bg-[var(--mint)] h-4/5 animate-pulse [animation-delay:0.4s]" />
+            <span className="w-0.5 bg-[var(--mint)] h-1/2 animate-pulse [animation-delay:0.1s]" />
+          </div>
+          <span className="ml-1 text-[11px] text-muted-foreground font-sans">
+            {progress < 100 ? "Starting Ambient Music..." : "Welcome"}
+          </span>
+        </div>
+
+        {/* Loading Progress Bar & Percentage */}
+        <div className="mt-8 w-full space-y-2">
+          <div className="h-1.5 w-full overflow-hidden rounded-full border border-border/50 bg-secondary/50 p-0.5">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-[var(--mint)] via-[var(--lavender)] to-[var(--peach)] transition-all duration-75"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <div className="flex justify-between items-center text-[11px] font-mono text-muted-foreground">
+            <span>Portfolio 2026</span>
+            <span className="font-semibold text-[var(--mint)]">{progress}%</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function PortfolioPage() {
   const [resumeOpen, setResumeOpen] = useState(false);
   const [testimonials, setTestimonials] = useState(initialTestimonials);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getGlobalAudio();
@@ -159,6 +248,11 @@ function PortfolioPage() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <PortfolioLoader key="loader" onComplete={() => setIsLoading(false)} />
+        )}
+      </AnimatePresence>
       <BackgroundOrbs />
       <Header onViewResume={() => setResumeOpen(true)} />
       <ResumeModal open={resumeOpen} onOpenChange={setResumeOpen} />
