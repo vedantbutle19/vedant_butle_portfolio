@@ -149,6 +149,10 @@ function PortfolioPage() {
   const [resumeOpen, setResumeOpen] = useState(false);
   const [testimonials, setTestimonials] = useState(initialTestimonials);
 
+  useEffect(() => {
+    getGlobalAudio();
+  }, []);
+
   const addTestimonial = (testimonial: TestimonialItem) => {
     setTestimonials((prev) => [testimonial, ...prev]);
   };
@@ -200,7 +204,7 @@ function ThemeToggle({ className = "" }: { className?: string }) {
 
 // Singleton Background Audio Manager & Hook
 let globalAudio: HTMLAudioElement | null = null;
-let globalIsPlaying = true;
+let globalIsPlaying = false;
 let userWantsMusic = true;
 const audioListeners = new Set<(playing: boolean) => void>();
 
@@ -213,21 +217,45 @@ function getGlobalAudio() {
   if (!globalAudio) {
     globalAudio = new Audio("/portfolio-music.mp3");
     globalAudio.loop = true;
-    globalAudio.volume = 0.35;
+    globalAudio.preload = "auto";
+    globalAudio.volume = 0;
+    globalAudio.currentTime = 0; // Always restart music from beginning (0:00) on website load/reload
+
+    const TARGET_VOLUME = 0.35;
+
+    const fadeIn = () => {
+      if (!globalAudio) return;
+      let currentVol = 0;
+      globalAudio.volume = 0;
+      const interval = setInterval(() => {
+        if (!globalAudio || globalAudio.paused) {
+          clearInterval(interval);
+          return;
+        }
+        currentVol = Math.min(TARGET_VOLUME, currentVol + 0.05);
+        globalAudio.volume = currentVol;
+        if (currentVol >= TARGET_VOLUME) {
+          clearInterval(interval);
+        }
+      }, 50);
+    };
 
     const attemptPlay = () => {
       if (!globalAudio || !userWantsMusic) return;
-      globalAudio
-        .play()
-        .then(() => {
-          globalIsPlaying = true;
-          notifyAudioListeners();
-          removeInteractionListeners();
-        })
-        .catch(() => {
-          // If browser policy delays unmuted autoplay on initial render, keep userWantsMusic true
-          // so the very first interaction silently triggers playback without popups
-        });
+
+      const promise = globalAudio.play();
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            globalIsPlaying = true;
+            fadeIn();
+            notifyAudioListeners();
+            removeInteractionListeners();
+          })
+          .catch(() => {
+            // Autoplay delayed by strict browser policy until user gesture
+          });
+      }
     };
 
     const handleUserInteraction = () => {
@@ -237,26 +265,59 @@ function getGlobalAudio() {
     };
 
     const removeInteractionListeners = () => {
-      window.removeEventListener("click", handleUserInteraction);
-      window.removeEventListener("touchstart", handleUserInteraction);
-      window.removeEventListener("keydown", handleUserInteraction);
-      window.removeEventListener("pointerdown", handleUserInteraction);
-      window.removeEventListener("mousedown", handleUserInteraction);
-      document.removeEventListener("click", handleUserInteraction);
-      document.removeEventListener("touchstart", handleUserInteraction);
+      const events = [
+        "click",
+        "touchstart",
+        "touchend",
+        "keydown",
+        "pointerdown",
+        "pointermove",
+        "mousemove",
+        "scroll",
+        "wheel",
+        "mouseenter",
+        "focus",
+      ];
+      events.forEach((evt) => {
+        window.removeEventListener(evt, handleUserInteraction);
+        document.removeEventListener(evt, handleUserInteraction);
+      });
     };
 
-    // Immediate attempt on load
-    attemptPlay();
+    const events = [
+      "click",
+      "touchstart",
+      "touchend",
+      "keydown",
+      "pointerdown",
+      "pointermove",
+      "mousemove",
+      "scroll",
+      "wheel",
+      "mouseenter",
+      "focus",
+    ];
+    events.forEach((evt) => {
+      window.addEventListener(evt, handleUserInteraction, { passive: true });
+      document.addEventListener(evt, handleUserInteraction, { passive: true });
+    });
 
-    // Attach listeners so first gesture silently begins playback if browser blocked initial unmuted autoplay
-    window.addEventListener("click", handleUserInteraction);
-    window.addEventListener("touchstart", handleUserInteraction);
-    window.addEventListener("keydown", handleUserInteraction);
-    window.addEventListener("pointerdown", handleUserInteraction);
-    window.addEventListener("mousedown", handleUserInteraction);
-    document.addEventListener("click", handleUserInteraction);
-    document.addEventListener("touchstart", handleUserInteraction);
+    // Reset music to 0:00 and attempt play on page reload or bfcache restoration
+    window.addEventListener("pageshow", () => {
+      if (globalAudio) {
+        globalAudio.currentTime = 0;
+        attemptPlay();
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && userWantsMusic && globalAudio && globalAudio.paused) {
+        attemptPlay();
+      }
+    });
+
+    // Immediate playback attempt on page load
+    attemptPlay();
   }
   return globalAudio;
 }
@@ -286,13 +347,17 @@ function useBackgroundMusic() {
       globalIsPlaying = false;
     } else {
       userWantsMusic = true;
-      audio
-        .play()
-        .then(() => {
-          globalIsPlaying = true;
-          notifyAudioListeners();
-        })
-        .catch(() => {});
+      audio.currentTime = 0; // Restart track when user clicks play
+      const promise = audio.play();
+      if (promise !== undefined) {
+        promise
+          .then(() => {
+            audio.volume = 0.35;
+            globalIsPlaying = true;
+            notifyAudioListeners();
+          })
+          .catch(() => {});
+      }
       globalIsPlaying = true;
     }
     notifyAudioListeners();
