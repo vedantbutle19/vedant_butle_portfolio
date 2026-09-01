@@ -200,7 +200,7 @@ function ThemeToggle({ className = "" }: { className?: string }) {
 
 // Singleton Background Audio Manager & Hook
 let globalAudio: HTMLAudioElement | null = null;
-let globalIsPlaying = false;
+let globalIsPlaying = true;
 let userWantsMusic = true;
 const audioListeners = new Set<(playing: boolean) => void>();
 
@@ -215,7 +215,7 @@ function getGlobalAudio() {
     globalAudio.loop = true;
     globalAudio.volume = 0.35;
 
-    const startPlayback = () => {
+    const attemptPlay = () => {
       if (!globalAudio || !userWantsMusic) return;
       globalAudio
         .play()
@@ -225,14 +225,14 @@ function getGlobalAudio() {
           removeInteractionListeners();
         })
         .catch(() => {
-          globalIsPlaying = false;
-          notifyAudioListeners();
+          // If browser policy delays unmuted autoplay on initial render, keep userWantsMusic true
+          // so the very first interaction silently triggers playback without popups
         });
     };
 
     const handleUserInteraction = () => {
       if (userWantsMusic && globalAudio && globalAudio.paused) {
-        startPlayback();
+        attemptPlay();
       }
     };
 
@@ -240,19 +240,23 @@ function getGlobalAudio() {
       window.removeEventListener("click", handleUserInteraction);
       window.removeEventListener("touchstart", handleUserInteraction);
       window.removeEventListener("keydown", handleUserInteraction);
-      window.removeEventListener("scroll", handleUserInteraction);
       window.removeEventListener("pointerdown", handleUserInteraction);
+      window.removeEventListener("mousedown", handleUserInteraction);
+      document.removeEventListener("click", handleUserInteraction);
+      document.removeEventListener("touchstart", handleUserInteraction);
     };
 
-    // In case browser permits immediate unmuted autoplay
-    startPlayback();
+    // Immediate attempt on load
+    attemptPlay();
 
-    // Listen for any gesture to start music automatically on entry
+    // Attach listeners so first gesture silently begins playback if browser blocked initial unmuted autoplay
     window.addEventListener("click", handleUserInteraction);
     window.addEventListener("touchstart", handleUserInteraction);
     window.addEventListener("keydown", handleUserInteraction);
-    window.addEventListener("scroll", handleUserInteraction);
     window.addEventListener("pointerdown", handleUserInteraction);
+    window.addEventListener("mousedown", handleUserInteraction);
+    document.addEventListener("click", handleUserInteraction);
+    document.addEventListener("touchstart", handleUserInteraction);
   }
   return globalAudio;
 }
