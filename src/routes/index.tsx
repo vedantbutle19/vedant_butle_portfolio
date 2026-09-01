@@ -198,30 +198,41 @@ function ThemeToggle({ className = "" }: { className?: string }) {
   );
 }
 
-function MusicToggle({ className = "" }: { className?: string }) {
-  const [isPlaying, setIsPlaying] = useState(true);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+// Singleton Background Audio Manager & Hook
+let globalAudio: HTMLAudioElement | null = null;
+let globalIsPlaying = true;
+const audioListeners = new Set<(playing: boolean) => void>();
 
-  useEffect(() => {
-    const audio = new Audio("/portfolio-music.mp3");
-    audio.loop = true;
-    audio.volume = 0.35;
-    audioRef.current = audio;
+function notifyAudioListeners() {
+  audioListeners.forEach((listener) => listener(globalIsPlaying));
+}
 
-    const tryPlay = () => {
-      audio
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => setIsPlaying(false));
-    };
+function getGlobalAudio() {
+  if (typeof window === "undefined") return null;
+  if (!globalAudio) {
+    globalAudio = new Audio("/portfolio-music.mp3");
+    globalAudio.loop = true;
+    globalAudio.volume = 0.35;
 
-    tryPlay();
+    globalAudio
+      .play()
+      .then(() => {
+        globalIsPlaying = true;
+        notifyAudioListeners();
+      })
+      .catch(() => {
+        globalIsPlaying = false;
+        notifyAudioListeners();
+      });
 
     const handleFirstInteraction = () => {
-      if (audioRef.current && audioRef.current.paused) {
-        audioRef.current
+      if (globalAudio && globalAudio.paused && globalIsPlaying) {
+        globalAudio
           .play()
-          .then(() => setIsPlaying(true))
+          .then(() => {
+            globalIsPlaying = true;
+            notifyAudioListeners();
+          })
           .catch(() => {});
       }
       window.removeEventListener("click", handleFirstInteraction);
@@ -232,31 +243,54 @@ function MusicToggle({ className = "" }: { className?: string }) {
     window.addEventListener("click", handleFirstInteraction);
     window.addEventListener("touchstart", handleFirstInteraction);
     window.addEventListener("keydown", handleFirstInteraction);
+  }
+  return globalAudio;
+}
+
+function useBackgroundMusic() {
+  const [isPlaying, setIsPlaying] = useState(globalIsPlaying);
+
+  useEffect(() => {
+    getGlobalAudio();
+
+    const handleChange = (playing: boolean) => setIsPlaying(playing);
+    audioListeners.add(handleChange);
+    setIsPlaying(globalIsPlaying);
 
     return () => {
-      audio.pause();
-      window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
+      audioListeners.delete(handleChange);
     };
   }, []);
 
-  const toggleMusic = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+  const toggle = () => {
+    const audio = getGlobalAudio();
+    if (!audio) return;
+
+    if (globalIsPlaying) {
+      audio.pause();
+      globalIsPlaying = false;
     } else {
-      audioRef.current
+      audio
         .play()
-        .then(() => setIsPlaying(true))
+        .then(() => {
+          globalIsPlaying = true;
+          notifyAudioListeners();
+        })
         .catch(() => {});
+      globalIsPlaying = true;
     }
+    notifyAudioListeners();
   };
+
+  return { isPlaying, toggle };
+}
+
+function MusicToggle({ className = "" }: { className?: string }) {
+  const { isPlaying, toggle } = useBackgroundMusic();
 
   return (
     <button
-      onClick={toggleMusic}
+      onClick={toggle}
       aria-label={isPlaying ? "Mute background music" : "Play background music"}
       title={isPlaying ? "Mute background music" : "Play background music"}
       className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-300 ${
