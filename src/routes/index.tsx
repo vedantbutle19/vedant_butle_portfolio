@@ -200,7 +200,8 @@ function ThemeToggle({ className = "" }: { className?: string }) {
 
 // Singleton Background Audio Manager & Hook
 let globalAudio: HTMLAudioElement | null = null;
-let globalIsPlaying = true;
+let globalIsPlaying = false;
+let userWantsMusic = true;
 const audioListeners = new Set<(playing: boolean) => void>();
 
 function notifyAudioListeners() {
@@ -214,35 +215,44 @@ function getGlobalAudio() {
     globalAudio.loop = true;
     globalAudio.volume = 0.35;
 
-    globalAudio
-      .play()
-      .then(() => {
-        globalIsPlaying = true;
-        notifyAudioListeners();
-      })
-      .catch(() => {
-        globalIsPlaying = false;
-        notifyAudioListeners();
-      });
-
-    const handleFirstInteraction = () => {
-      if (globalAudio && globalAudio.paused && globalIsPlaying) {
-        globalAudio
-          .play()
-          .then(() => {
-            globalIsPlaying = true;
-            notifyAudioListeners();
-          })
-          .catch(() => {});
-      }
-      window.removeEventListener("click", handleFirstInteraction);
-      window.removeEventListener("touchstart", handleFirstInteraction);
-      window.removeEventListener("keydown", handleFirstInteraction);
+    const startPlayback = () => {
+      if (!globalAudio || !userWantsMusic) return;
+      globalAudio
+        .play()
+        .then(() => {
+          globalIsPlaying = true;
+          notifyAudioListeners();
+          removeInteractionListeners();
+        })
+        .catch(() => {
+          globalIsPlaying = false;
+          notifyAudioListeners();
+        });
     };
 
-    window.addEventListener("click", handleFirstInteraction);
-    window.addEventListener("touchstart", handleFirstInteraction);
-    window.addEventListener("keydown", handleFirstInteraction);
+    const handleUserInteraction = () => {
+      if (userWantsMusic && globalAudio && globalAudio.paused) {
+        startPlayback();
+      }
+    };
+
+    const removeInteractionListeners = () => {
+      window.removeEventListener("click", handleUserInteraction);
+      window.removeEventListener("touchstart", handleUserInteraction);
+      window.removeEventListener("keydown", handleUserInteraction);
+      window.removeEventListener("scroll", handleUserInteraction);
+      window.removeEventListener("pointerdown", handleUserInteraction);
+    };
+
+    // In case browser permits immediate unmuted autoplay
+    startPlayback();
+
+    // Listen for any gesture to start music automatically on entry
+    window.addEventListener("click", handleUserInteraction);
+    window.addEventListener("touchstart", handleUserInteraction);
+    window.addEventListener("keydown", handleUserInteraction);
+    window.addEventListener("scroll", handleUserInteraction);
+    window.addEventListener("pointerdown", handleUserInteraction);
   }
   return globalAudio;
 }
@@ -267,9 +277,11 @@ function useBackgroundMusic() {
     if (!audio) return;
 
     if (globalIsPlaying) {
+      userWantsMusic = false;
       audio.pause();
       globalIsPlaying = false;
     } else {
+      userWantsMusic = true;
       audio
         .play()
         .then(() => {
