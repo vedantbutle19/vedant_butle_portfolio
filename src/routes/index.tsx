@@ -145,88 +145,129 @@ const initialTestimonials: TestimonialItem[] = [
   },
 ];
 
-/* ---------- Portfolio Loading Screen ---------- */
+/* ---------- Finger Tapping Hand Loading Screen ---------- */
 function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Ensure music starts playing immediately on loading screen mount
-    getGlobalAudio();
+    const audio = getGlobalAudio();
+    if (audio) {
+      audio.volume = 0;
+    }
 
+    const TARGET_VOLUME = 0.35;
     const startTime = Date.now();
-    const duration = 2400; // ~2.4s loading duration
+    const duration = 2500; // 2.5 seconds loading time
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
       setProgress(pct);
 
+      // Increase volume dynamically as loading progresses
+      const currentAudio = getGlobalAudio();
+      if (currentAudio && !currentAudio.paused) {
+        currentAudio.volume = Math.min(TARGET_VOLUME, (pct / 100) * TARGET_VOLUME);
+      }
+
       if (pct >= 100) {
         clearInterval(interval);
         setTimeout(() => {
           onComplete?.();
-        }, 250);
+        }, 300);
       }
-    }, 30);
+    }, 25);
 
     return () => clearInterval(interval);
   }, [onComplete]);
 
+  // Finger tapping wave delay & heights
+  const fingers = [
+    { height: "h-24", delay: 0.0 }, // Pinky
+    { height: "h-28", delay: 0.15 }, // Ring finger
+    { height: "h-32", delay: 0.3 }, // Middle finger
+    { height: "h-28", delay: 0.45 }, // Index finger
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background px-4 select-none"
+      initial={{ y: 0, opacity: 1 }}
+      exit={{
+        y: "-100vh",
+        opacity: 0.9,
+        transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] },
+      }}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background text-foreground select-none px-4"
     >
-      {/* Ambient background glowing orbs matching portfolio theme */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-[450px] w-[450px] rounded-full bg-[var(--mint)] opacity-20 blur-3xl animate-float" />
-      <div className="pointer-events-none absolute -bottom-32 -right-32 h-[500px] w-[500px] rounded-full bg-[var(--lavender)] opacity-15 blur-3xl animate-float [animation-delay:2s]" />
+      {/* Background glowing ambient orbs matching portfolio theme */}
+      <div className="pointer-events-none absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-[var(--mint)] opacity-20 blur-3xl animate-float" />
+      <div className="pointer-events-none absolute -bottom-40 -right-40 h-[550px] w-[550px] rounded-full bg-[var(--lavender)] opacity-15 blur-3xl animate-float [animation-delay:2s]" />
 
-      <div className="relative flex flex-col items-center text-center max-w-sm w-full">
-        {/* Animated Emblem with glowing gradient ring */}
-        <div className="relative mb-6 flex h-20 w-20 items-center justify-center">
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-[var(--mint)] via-[var(--lavender)] to-[var(--peach)] opacity-80 blur-md animate-pulse" />
-          <div className="relative flex h-full w-full items-center justify-center rounded-2xl border border-border bg-card/90 backdrop-blur-md shadow-xl text-foreground font-extrabold text-2xl tracking-wider">
-            <span className="text-gradient">VB</span>
-          </div>
-        </div>
-
-        {/* Name and Title */}
-        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Vedant Butle
-        </h1>
-        <p className="mt-1 text-xs sm:text-sm font-medium tracking-wide text-muted-foreground flex items-center gap-1.5">
-          <span>Frontend Developer</span>
-          <span className="h-1 w-1 rounded-full bg-[var(--mint)]" />
-          <span>AI Engineer</span>
-        </p>
-
-        {/* Ambient Sound Indicator */}
-        <div className="mt-6 flex items-center gap-2 h-7 px-3.5 py-1 rounded-full border border-border bg-secondary/40 backdrop-blur-sm text-xs font-medium text-[var(--mint)]">
-          <Music2 className="h-3.5 w-3.5 animate-bounce" />
-          <div className="flex items-end gap-0.5 h-3">
-            <span className="w-0.5 bg-[var(--mint)] h-full animate-pulse" />
-            <span className="w-0.5 bg-[var(--mint)] h-2/3 animate-pulse [animation-delay:0.2s]" />
-            <span className="w-0.5 bg-[var(--mint)] h-4/5 animate-pulse [animation-delay:0.4s]" />
-            <span className="w-0.5 bg-[var(--mint)] h-1/2 animate-pulse [animation-delay:0.1s]" />
-          </div>
-          <span className="ml-1 text-[11px] text-muted-foreground font-sans">
-            {progress < 100 ? "Starting Ambient Music..." : "Welcome"}
-          </span>
-        </div>
-
-        {/* Loading Progress Bar & Percentage */}
-        <div className="mt-8 w-full space-y-2">
-          <div className="h-1.5 w-full overflow-hidden rounded-full border border-border/50 bg-secondary/50 p-0.5">
+      <div className="relative flex flex-col items-center justify-center text-center">
+        {/* Hand Container with Finger Tapping Motion */}
+        <div className="relative flex items-end gap-2.5 pb-4 mb-6 px-4">
+          {/* 4 Vertical Fingers */}
+          {fingers.map((finger, idx) => (
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-[var(--mint)] via-[var(--lavender)] to-[var(--peach)] transition-all duration-75"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="flex justify-between items-center text-[11px] font-mono text-muted-foreground">
-            <span>Portfolio 2026</span>
-            <span className="font-semibold text-[var(--mint)]">{progress}%</span>
-          </div>
+              key={idx}
+              animate={{ y: [0, -18, 0] }}
+              transition={{
+                duration: 1.1,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: finger.delay,
+              }}
+              className={`relative w-11 ${finger.height} bg-card border border-border/80 rounded-2xl flex flex-col items-center justify-between p-2 shadow-2xl backdrop-blur-md`}
+            >
+              {/* Knuckle lines (2 horizontal mint bars near top) */}
+              <div className="flex flex-col gap-1 mt-1">
+                <span className="h-1 w-5 bg-[var(--mint)] rounded-full opacity-90 shadow-[0_0_8px_var(--mint)]" />
+                <span className="h-1 w-5 bg-[var(--mint)] rounded-full opacity-90 shadow-[0_0_8px_var(--mint)]" />
+              </div>
+
+              {/* Fingernail / Pad (mint rounded circle at bottom) */}
+              <div className="h-6 w-6 rounded-full bg-[var(--mint)] mb-0.5 shadow-[0_0_10px_var(--mint)]" />
+            </motion.div>
+          ))}
+
+          {/* Thumb (curved outward to the right) */}
+          <motion.div
+            animate={{ y: [0, -10, 0], rotate: [0, 6, 0] }}
+            transition={{
+              duration: 1.1,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.6,
+            }}
+            className="relative w-12 h-11 bg-card border border-border/80 rounded-r-3xl rounded-tl-xl flex items-center justify-end p-2 -ml-1 shadow-2xl backdrop-blur-md"
+          >
+            <div className="h-5 w-5 rounded-full bg-[var(--mint)] mr-0.5 shadow-[0_0_10px_var(--mint)]" />
+          </motion.div>
+        </div>
+
+        {/* Loading Text with animated trailing dots */}
+        <div className="flex items-center justify-center gap-1 text-2xl font-bold tracking-wide text-foreground font-sans">
+          <span className="text-gradient">Loading</span>
+          <span className="flex gap-1 ml-1 text-[var(--mint)]">
+            <motion.span
+              animate={{ opacity: [0.2, 1, 0.2] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: 0.0 }}
+            >
+              .
+            </motion.span>
+            <motion.span
+              animate={{ opacity: [0.2, 1, 0.2] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }}
+            >
+              .
+            </motion.span>
+            <motion.span
+              animate={{ opacity: [0.2, 1, 0.2] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}
+            >
+              .
+            </motion.span>
+          </span>
         </div>
       </div>
     </motion.div>
@@ -1901,7 +1942,7 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
 function Footer() {
   return (
     <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-      © 2025 Vedant's Portfolio. Crafted with care.
+      © 2026 Vedant's Portfolio. Crafted with care.
     </footer>
   );
 }
