@@ -36,6 +36,7 @@ import icar1 from "@/assets/icar1.png";
 import icar2 from "@/assets/icar2.png";
 import icar3 from "@/assets/icar3.png";
 import soil1 from "@/assets/soil_1.jpg";
+import aarogyam1 from "@/assets/aarogyam_1.jpg";
 
 import pneumonia1 from "@/assets/pneumonia1.png";
 import pneumonia2 from "@/assets/pneumonia2.png";
@@ -60,9 +61,7 @@ import {
   Github,
   Linkedin,
   Instagram,
-  Dribbble,
   ChevronDown,
-  Palette,
   Code2,
   Brain,
   Zap,
@@ -72,8 +71,6 @@ import {
   ShieldCheck,
   CheckCircle2,
   Sparkles,
-  Wrench,
-  Twitter,
   Send,
   Briefcase,
   GraduationCap,
@@ -83,16 +80,14 @@ import {
   Eye,
   ChevronLeft,
   ChevronRight,
-  Maximize2,
   Music2,
-  Volume2,
-  VolumeX,
-  X,
   BarChart3,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { AcademicModal, type AcademicMilestone } from "@/components/AcademicModal";
 import { ProjectModal, type ProjectItem } from "@/components/ProjectModal";
+import { ImageGalleryCarousel } from "@/components/ImageGalleryCarousel";
+import { ChatBotCard } from "@/components/ChatBotCard";
 import {
   Dialog,
   DialogContent,
@@ -130,7 +125,7 @@ type TestimonialItem = {
   initials: string;
 };
 
-const initialTestimonials: TestimonialItem[] = [
+const testimonialsList: TestimonialItem[] = [
   {
     text: "Vedant did an amazing job designing a user-friendly and intuitive experience for our project. His attention to detail and creativity made a huge difference!",
     name: "Pritish Manwatkar",
@@ -145,48 +140,37 @@ const initialTestimonials: TestimonialItem[] = [
   },
 ];
 
+const socialLinks = [
+  { href: "mailto:vedantvbutle@gmail.com", icon: Mail, label: "Email", external: false },
+  { href: "https://github.com/vedantbutle19", icon: Github, label: "GitHub", external: true },
+  {
+    href: "https://www.linkedin.com/in/vedant-butle-a4966126a/",
+    icon: Linkedin,
+    label: "LinkedIn",
+    external: true,
+  },
+  {
+    href: "https://www.instagram.com/vedantt_butlee/",
+    icon: Instagram,
+    label: "Instagram",
+    external: true,
+  },
+];
+
 /* ---------- Finger Tapping Hand Loading Screen ---------- */
 function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
-  const [progress, setProgress] = useState(0);
-
   useEffect(() => {
-    const audio = getGlobalAudio();
-    if (audio) {
-      audio.volume = 0;
-    }
-
-    const TARGET_VOLUME = 0.35;
-    const startTime = Date.now();
-    const duration = 2500; // 2.5 seconds loading time
-
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
-      setProgress(pct);
-
-      // Increase volume dynamically as loading progresses
-      const currentAudio = getGlobalAudio();
-      if (currentAudio && !currentAudio.paused) {
-        currentAudio.volume = Math.min(TARGET_VOLUME, (pct / 100) * TARGET_VOLUME);
-      }
-
-      if (pct >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          onComplete?.();
-        }, 300);
-      }
-    }, 25);
-
-    return () => clearInterval(interval);
+    const timer = setTimeout(() => {
+      onComplete?.();
+    }, 2200);
+    return () => clearTimeout(timer);
   }, [onComplete]);
 
-  // Finger tapping wave delay & heights
   const fingers = [
-    { height: "h-24", delay: 0.0 }, // Pinky
-    { height: "h-28", delay: 0.15 }, // Ring finger
-    { height: "h-32", delay: 0.3 }, // Middle finger
-    { height: "h-28", delay: 0.45 }, // Index finger
+    { height: "h-24", delay: 0.0 },
+    { height: "h-28", delay: 0.15 },
+    { height: "h-32", delay: 0.3 },
+    { height: "h-28", delay: 0.45 },
   ];
 
   return (
@@ -199,14 +183,11 @@ function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
       }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background text-foreground select-none px-4"
     >
-      {/* Background glowing ambient orbs matching portfolio theme */}
       <div className="pointer-events-none absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-[var(--mint)] opacity-20 blur-3xl animate-float" />
       <div className="pointer-events-none absolute -bottom-40 -right-40 h-[550px] w-[550px] rounded-full bg-[var(--lavender)] opacity-15 blur-3xl animate-float [animation-delay:2s]" />
 
       <div className="relative flex flex-col items-center justify-center text-center">
-        {/* Hand Container with Finger Tapping Motion */}
         <div className="relative flex items-end gap-2.5 pb-4 mb-6 px-4">
-          {/* 4 Vertical Fingers */}
           {fingers.map((finger, idx) => (
             <motion.div
               key={idx}
@@ -219,18 +200,14 @@ function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
               }}
               className={`relative w-11 ${finger.height} bg-card border border-border/80 rounded-2xl flex flex-col items-center justify-between p-2 shadow-2xl backdrop-blur-md`}
             >
-              {/* Knuckle lines (2 horizontal mint bars near top) */}
               <div className="flex flex-col gap-1 mt-1">
                 <span className="h-1 w-5 bg-[var(--mint)] rounded-full opacity-90 shadow-[0_0_8px_var(--mint)]" />
                 <span className="h-1 w-5 bg-[var(--mint)] rounded-full opacity-90 shadow-[0_0_8px_var(--mint)]" />
               </div>
-
-              {/* Fingernail / Pad (mint rounded circle at bottom) */}
               <div className="h-6 w-6 rounded-full bg-[var(--mint)] mb-0.5 shadow-[0_0_10px_var(--mint)]" />
             </motion.div>
           ))}
 
-          {/* Thumb (curved outward to the right) */}
           <motion.div
             animate={{ y: [0, -10, 0], rotate: [0, 6, 0] }}
             transition={{
@@ -245,28 +222,18 @@ function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
           </motion.div>
         </div>
 
-        {/* Loading Text with animated trailing dots */}
         <div className="flex items-center justify-center gap-1 text-2xl font-bold tracking-wide text-foreground font-sans">
           <span className="text-gradient">Loading</span>
           <span className="flex gap-1 ml-1 text-[var(--mint)]">
-            <motion.span
-              animate={{ opacity: [0.2, 1, 0.2] }}
-              transition={{ duration: 1.2, repeat: Infinity, delay: 0.0 }}
-            >
-              .
-            </motion.span>
-            <motion.span
-              animate={{ opacity: [0.2, 1, 0.2] }}
-              transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }}
-            >
-              .
-            </motion.span>
-            <motion.span
-              animate={{ opacity: [0.2, 1, 0.2] }}
-              transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}
-            >
-              .
-            </motion.span>
+            {[0, 0.2, 0.4].map((delay, idx) => (
+              <motion.span
+                key={idx}
+                animate={{ opacity: [0.2, 1, 0.2] }}
+                transition={{ duration: 1.2, repeat: Infinity, delay }}
+              >
+                .
+              </motion.span>
+            ))}
           </span>
         </div>
       </div>
@@ -276,23 +243,12 @@ function PortfolioLoader({ onComplete }: { onComplete?: () => void }) {
 
 function PortfolioPage() {
   const [resumeOpen, setResumeOpen] = useState(false);
-  const [testimonials, setTestimonials] = useState(initialTestimonials);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    getGlobalAudio();
-  }, []);
-
-  const addTestimonial = (testimonial: TestimonialItem) => {
-    setTestimonials((prev) => [testimonial, ...prev]);
-  };
 
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <AnimatePresence mode="wait">
-        {isLoading && (
-          <PortfolioLoader key="loader" onComplete={() => setIsLoading(false)} />
-        )}
+        {isLoading && <PortfolioLoader key="loader" onComplete={() => setIsLoading(false)} />}
       </AnimatePresence>
       <BackgroundOrbs />
       <Header onViewResume={() => setResumeOpen(true)} />
@@ -304,10 +260,11 @@ function PortfolioPage() {
         <ExperienceEducation />
         <Services />
         <Projects />
-        <Testimonials testimonials={testimonials} />
-        <Contact onSendMessage={addTestimonial} />
+        <Testimonials testimonials={testimonialsList} />
+        <Contact />
       </main>
       <Footer />
+      <ChatBotCard />
     </div>
   );
 }
@@ -333,189 +290,6 @@ function ThemeToggle({ className = "" }: { className?: string }) {
       className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-secondary/40 text-foreground transition-colors hover:bg-secondary ${className}`}
     >
       {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-    </button>
-  );
-}
-
-// Singleton Background Audio Manager & Hook
-let globalAudio: HTMLAudioElement | null = null;
-let globalIsPlaying = false;
-let userWantsMusic = true;
-const audioListeners = new Set<(playing: boolean) => void>();
-
-function notifyAudioListeners() {
-  audioListeners.forEach((listener) => listener(globalIsPlaying));
-}
-
-function getGlobalAudio() {
-  if (typeof window === "undefined") return null;
-  if (!globalAudio) {
-    globalAudio = new Audio("/portfolio-music.mp3");
-    globalAudio.loop = true;
-    globalAudio.preload = "auto";
-    globalAudio.volume = 0;
-    globalAudio.currentTime = 0; // Always restart music from beginning (0:00) on website load/reload
-
-    const TARGET_VOLUME = 0.35;
-
-    const fadeIn = () => {
-      if (!globalAudio) return;
-      let currentVol = 0;
-      globalAudio.volume = 0;
-      const interval = setInterval(() => {
-        if (!globalAudio || globalAudio.paused) {
-          clearInterval(interval);
-          return;
-        }
-        currentVol = Math.min(TARGET_VOLUME, currentVol + 0.05);
-        globalAudio.volume = currentVol;
-        if (currentVol >= TARGET_VOLUME) {
-          clearInterval(interval);
-        }
-      }, 50);
-    };
-
-    const attemptPlay = () => {
-      if (!globalAudio || !userWantsMusic) return;
-
-      const promise = globalAudio.play();
-      if (promise !== undefined) {
-        promise
-          .then(() => {
-            globalIsPlaying = true;
-            fadeIn();
-            notifyAudioListeners();
-            removeInteractionListeners();
-          })
-          .catch(() => {
-            // Autoplay delayed by strict browser policy until user gesture
-          });
-      }
-    };
-
-    const handleUserInteraction = () => {
-      if (userWantsMusic && globalAudio && globalAudio.paused) {
-        attemptPlay();
-      }
-    };
-
-    const removeInteractionListeners = () => {
-      const events = [
-        "click",
-        "touchstart",
-        "touchend",
-        "keydown",
-        "pointerdown",
-        "pointermove",
-        "mousemove",
-        "scroll",
-        "wheel",
-        "mouseenter",
-        "focus",
-      ];
-      events.forEach((evt) => {
-        window.removeEventListener(evt, handleUserInteraction);
-        document.removeEventListener(evt, handleUserInteraction);
-      });
-    };
-
-    const events = [
-      "click",
-      "touchstart",
-      "touchend",
-      "keydown",
-      "pointerdown",
-      "pointermove",
-      "mousemove",
-      "scroll",
-      "wheel",
-      "mouseenter",
-      "focus",
-    ];
-    events.forEach((evt) => {
-      window.addEventListener(evt, handleUserInteraction, { passive: true });
-      document.addEventListener(evt, handleUserInteraction, { passive: true });
-    });
-
-    // Reset music to 0:00 and attempt play on page reload or bfcache restoration
-    window.addEventListener("pageshow", () => {
-      if (globalAudio) {
-        globalAudio.currentTime = 0;
-        attemptPlay();
-      }
-    });
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible" && userWantsMusic && globalAudio && globalAudio.paused) {
-        attemptPlay();
-      }
-    });
-
-    // Immediate playback attempt on page load
-    attemptPlay();
-  }
-  return globalAudio;
-}
-
-function useBackgroundMusic() {
-  const [isPlaying, setIsPlaying] = useState(globalIsPlaying);
-
-  useEffect(() => {
-    getGlobalAudio();
-
-    const handleChange = (playing: boolean) => setIsPlaying(playing);
-    audioListeners.add(handleChange);
-    setIsPlaying(globalIsPlaying);
-
-    return () => {
-      audioListeners.delete(handleChange);
-    };
-  }, []);
-
-  const toggle = () => {
-    const audio = getGlobalAudio();
-    if (!audio) return;
-
-    if (globalIsPlaying) {
-      userWantsMusic = false;
-      audio.pause();
-      globalIsPlaying = false;
-    } else {
-      userWantsMusic = true;
-      audio.currentTime = 0; // Restart track when user clicks play
-      const promise = audio.play();
-      if (promise !== undefined) {
-        promise
-          .then(() => {
-            audio.volume = 0.35;
-            globalIsPlaying = true;
-            notifyAudioListeners();
-          })
-          .catch(() => {});
-      }
-      globalIsPlaying = true;
-    }
-    notifyAudioListeners();
-  };
-
-  return { isPlaying, toggle };
-}
-
-function MusicToggle({ className = "" }: { className?: string }) {
-  const { isPlaying, toggle } = useBackgroundMusic();
-
-  return (
-    <button
-      onClick={toggle}
-      aria-label={isPlaying ? "Mute background music" : "Play background music"}
-      title={isPlaying ? "Mute background music" : "Play background music"}
-      className={`inline-flex h-9 w-9 items-center justify-center rounded-full border transition-all duration-300 ${
-        isPlaying
-          ? "border-[var(--mint)]/60 bg-[var(--mint)]/15 text-[var(--mint)] shadow-[0_0_12px_rgba(74,222,128,0.25)]"
-          : "border-border bg-secondary/40 text-muted-foreground hover:bg-secondary hover:text-foreground"
-      } ${className}`}
-    >
-      {isPlaying ? <Volume2 className="h-4 w-4 animate-pulse" /> : <VolumeX className="h-4 w-4" />}
     </button>
   );
 }
@@ -559,7 +333,6 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/60 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3.5">
-        {/* Desktop Navbar: Spans from starting to end */}
         <nav className="hidden lg:flex w-full items-center justify-between">
           <ul className="flex w-full items-center justify-between gap-1 xl:gap-2">
             {navLinks.map((l) => (
@@ -573,17 +346,21 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
               </li>
             ))}
             <li className="flex items-center gap-2">
-              <MusicToggle />
+              <button
+                type="button"
+                onClick={onViewResume}
+                className="rounded-full border border-[var(--mint)]/40 bg-[var(--mint)]/10 px-3.5 py-1.5 text-xs font-semibold text-[var(--mint)] transition-colors hover:bg-[var(--mint)] hover:text-black"
+              >
+                Resume
+              </button>
               <ThemeToggle />
             </li>
           </ul>
         </nav>
 
-        {/* Mobile Navbar Header */}
         <div className="flex w-full items-center justify-between lg:hidden">
-          <span className="text-base font-bold text-foreground">Menu</span>
+          <span className="text-base font-bold text-foreground">Vedant Butle</span>
           <div className="flex items-center gap-2.5">
-            <MusicToggle />
             <ThemeToggle />
             <button
               onClick={() => setOpen((v) => !v)}
@@ -625,6 +402,18 @@ function Header({ onViewResume }: { onViewResume: () => void }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    onViewResume();
+                  }}
+                  className="w-full text-left rounded-lg px-4 py-3 text-base font-semibold text-[var(--mint)] hover:bg-secondary transition-colors"
+                >
+                  View Resume
+                </button>
+              </li>
             </ul>
           </motion.nav>
         )}
@@ -748,27 +537,13 @@ function Hero({ onViewResume }: { onViewResume: () => void }) {
           transition={{ duration: 0.7, delay: 0.6 }}
           className="flex items-center justify-center gap-3 lg:justify-start"
         >
-          {[
-            { href: "mailto:vedantvbutle@gmail.com", icon: Mail, label: "Email" },
-            { href: "https://github.com/vedantbutle19", icon: Github, label: "GitHub" },
-            {
-              href: "https://www.linkedin.com/in/vedant-butle-a4966126a/",
-              icon: Linkedin,
-              label: "LinkedIn",
-            },
-            {
-              href: "https://www.instagram.com/vedantt_butlee/",
-              icon: Instagram,
-              label: "Instagram",
-            },
-            { href: "#", icon: Dribbble, label: "Dribbble" },
-          ].map(({ href, icon: Icon, label }, i) => (
+          {socialLinks.map(({ href, icon: Icon, label, external }) => (
             <a
-              key={i}
+              key={label}
               href={href}
               aria-label={label}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={external ? "_blank" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
               className="grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-all hover:-translate-y-1 hover:border-[var(--mint)] hover:text-[var(--mint)]"
             >
               <Icon className="h-5 w-5" />
@@ -788,6 +563,8 @@ function Hero({ onViewResume }: { onViewResume: () => void }) {
           <img
             src={heroImg}
             alt="Vedant Butle portrait"
+            fetchPriority="high"
+            decoding="async"
             width={768}
             height={960}
             className="h-full w-full object-cover"
@@ -854,15 +631,16 @@ function About() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-muted-foreground">
-              B.Tech student specializing in Artificial Intelligence with hands-on experience in
-              databases, machine learning, and web development. Skilled in C++, Python, SQL, Excel,
-              generative AI, GIS, geospatial analysis and R development.
+              B.Tech graduate in Artificial Intelligence with hands-on experience in machine
+              learning, computer vision, geospatial analysis, and modern web development. Skilled in
+              Python, R, TypeScript, C++, SQL, Generative AI, and GIS decision support systems.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="text-muted-foreground">
-              I bring strong skills in AI, machine learning, chatbot development, computer vision,
-              and web development — with real-world project implementation.
+              I bring strong skills in AI, machine learning, RAG chatbot development, computer
+              vision, and frontend engineering — backed by real-world research and product
+              implementation.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
@@ -909,7 +687,6 @@ type SpecialMoment = {
   images: string[];
   summary: string;
   highlights: string[];
-  youtubeLink?: string;
   youtubeButton?: {
     text: string;
     url: string;
@@ -927,7 +704,6 @@ const specialMoments: SpecialMoment[] = [
     images: [gadkari1, gadkari2],
     summary:
       "Privileged to present our startup concept inspired by the Government of India's Health Locker initiative to Hon'ble Union Minister Nitin Gadkari Sir. The solution focused on enabling secure, centralized, and accessible digital health records to strengthen India's digital healthcare ecosystem.",
-
     highlights: [
       "Presented startup concept to Hon'ble Union Minister Nitin Gadkari Sir",
       "Proposed a secure AI-enabled digital Health Locker solution for healthcare record management",
@@ -943,7 +719,7 @@ const specialMoments: SpecialMoment[] = [
     image: culturalScreenshot1,
     images: [certificate, culturalScreenshot1, insight25, culturalScreenshot2, walk, insight25_2],
     summary:
-      "Elected as the cultural Coordinator for the college flagship annual cultural festival. Successfully led cross-functional student teams, managed event logistics, security, and stage schedules for 3,000+ student attendees and 120+ live stage performances.",
+      "Elected as the Cultural Coordinator for the college flagship annual cultural festival. Successfully led cross-functional student teams, managed event logistics, security, and stage schedules for 3,000+ student attendees and 120+ live stage performances.",
     highlights: [
       "Elected by faculty and student body to lead annual cultural festival",
       "Managed logistics, stage management, and safety for 3,000+ attendees",
@@ -974,11 +750,8 @@ const specialMoments: SpecialMoment[] = [
     category: "Creative Journey",
     badge: "Original Song",
     date: "2024",
-
     image: zindagii1,
-
     images: [zindagii1, zindagii2],
-
     summary:
       "A special creative moment from my journey — composing and writing 'Zindagii', an original melody love song inspired by emotions, memories, and the beautiful uncertainty of life and love. This musical journey became even more memorable when I had the opportunity to perform the song on Radio Mirchi, turning a personal creation into a shared moment with a wider audience.",
     highlights: [
@@ -986,9 +759,6 @@ const specialMoments: SpecialMoment[] = [
       "Created the melody and lyrical concept from personal emotions and experiences",
       "Performed 'Zindagii' on Radio Mirchi, making it a memorable milestone in my musical journey",
     ],
-
-    youtubeLink: "https://www.youtube.com/watch?v=nI_VClSU2nU",
-
     youtubeButton: {
       text: "🎵 Listen to Zindagii on YouTube",
       url: "https://www.youtube.com/watch?v=nI_VClSU2nU",
@@ -996,132 +766,9 @@ const specialMoments: SpecialMoment[] = [
   },
 ];
 
-function MomentImageGallery({
-  images,
-  title,
-  onZoom,
-}: {
-  images: string[];
-  title: string;
-  onZoom: (img: string) => void;
-}) {
-  const [photoIndex, setPhotoIndex] = useState(0);
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setPhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setPhotoIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const dist = touchStartX.current - touchEndX.current;
-    if (dist > 40) {
-      setPhotoIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    } else if (dist < -40) {
-      setPhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    }
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
-
-  const currentPhoto = images[photoIndex] || images[0];
-
-  return (
-    <div className="relative group cursor-pointer" onClick={() => onZoom(currentPhoto)}>
-      <div className="absolute -inset-4 rounded-3xl bg-[var(--gradient-brand)] opacity-30 blur-2xl transition-opacity group-hover:opacity-50" />
-      <div
-        className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border glass-card bg-black/40"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={photoIndex}
-            src={currentPhoto}
-            alt={`${title} photo ${photoIndex + 1}`}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-            className="h-full w-full object-cover select-none"
-          />
-        </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
-
-        <div className="absolute top-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs text-white backdrop-blur flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
-          <Maximize2 className="h-3.5 w-3.5" />
-          <span>Zoom Photo</span>
-        </div>
-
-        {images.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={handlePrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition-all hover:scale-110 hover:bg-black/80"
-              aria-label="Previous photo"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition-all hover:scale-110 hover:bg-black/80"
-              aria-label="Next photo"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-            <div className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur">
-              {photoIndex + 1} / {images.length} photos
-            </div>
-          </>
-        )}
-      </div>
-
-      {images.length > 1 && (
-        <div
-          className="mt-3 flex items-center justify-center gap-1.5"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {images.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => setPhotoIndex(idx)}
-              className={`h-2 rounded-full transition-all ${
-                idx === photoIndex
-                  ? "w-5 bg-[var(--mint)]"
-                  : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground"
-              }`}
-              aria-label={`Go to photo ${idx + 1}`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 function SpecialMoments() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -1197,10 +844,11 @@ function SpecialMoments() {
             key={moment.id}
             className="w-full min-w-full shrink-0 snap-center rounded-[2.5rem] border border-border glass-card p-6 md:p-10 grid items-center gap-10 lg:grid-cols-2"
           >
-            <MomentImageGallery
+            <ImageGalleryCarousel
               images={moment.images && moment.images.length > 0 ? moment.images : [moment.image]}
               title={moment.title}
-              onZoom={(imgUrl) => setZoomedImage(imgUrl)}
+              aspectClassName="aspect-[4/3]"
+              showGlow
             />
 
             <div className="space-y-6">
@@ -1246,7 +894,7 @@ function SpecialMoments() {
                 <a
                   href={moment.youtubeButton.url}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--mint)] bg-[var(--mint)]/10 px-5 py-3 text-sm font-semibold text-[var(--mint)] transition-all hover:scale-[1.02] hover:bg-[var(--mint)] hover:text-black"
                 >
                   <Music2 className="h-4 w-4" />
@@ -1273,36 +921,6 @@ function SpecialMoments() {
           />
         ))}
       </div>
-
-      <AnimatePresence>
-        {zoomedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setZoomedImage(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl cursor-zoom-out"
-          >
-            <button
-              type="button"
-              onClick={() => setZoomedImage(null)}
-              className="absolute right-6 top-6 z-10 grid h-10 w-10 place-items-center rounded-full bg-white/20 text-white backdrop-blur hover:bg-white/30"
-              aria-label="Close zoom view"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <motion.img
-              initial={{ scale: 0.85 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.85 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              src={zoomedImage}
-              alt="Enlarged view"
-              className="max-h-[90vh] max-w-[90vw] rounded-2xl object-contain shadow-2xl"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
@@ -1319,24 +937,31 @@ type TimelineItem = {
 const experience: TimelineItem[] = [
   {
     icon: Brain,
+    role: "Young Professional-II (AI/ML Engineer)",
+    org: "ICAR–National Bureau of Soil Survey & Land Use Planning (ICAR-NBSS&LUP), Nagpur",
+    period: "June 2026 — Present",
+    desc: "Working under the NASF project 'Indian Agro Mission for Soil Health' applying AI/ML, data science, and geospatial modeling to agricultural and soil-health challenges.",
+  },
+  {
+    icon: Database,
     role: "GIS Development & AI Intern",
-    org: "ICAR–National Bureau of Soil Survey & Land Use Planning (ICAR-NBSS&LUP), Nagpur.",
-    period: "january 2026 - june 2026",
-    desc: "Built a soil-erosion decision support system using RUSLE in R — geospatial data ingestion, modeling, and dashboarding.",
+    org: "ICAR–National Bureau of Soil Survey & Land Use Planning (ICAR-NBSS&LUP), Nagpur",
+    period: "January 2026 — June 2026",
+    desc: "Built an Intelligent Soil Erosion Decision Support System (DSS) for the Vidarbha region using RUSLE in R and R Shiny — geospatial data ingestion, raster modeling, and interactive visualization.",
   },
   {
     icon: Rocket,
-    role: "Freelance Frontend Developer",
+    role: "Freelance Frontend & AI Developer",
     org: "Independent",
     period: "2024 — Present",
-    desc: "Building responsive React apps and modern web experiences for clients across healthcare, agriculture, and AI startups.",
+    desc: "Building responsive React applications, AI chatbots, and modern web experiences for clients across healthcare, agriculture, and technology startups.",
   },
   {
     icon: Briefcase,
-    role: "AI / ML Project Intern",
+    role: "AI / ML Research & Project Developer",
     org: "Academic Research",
-    period: "2024",
-    desc: "Developed a pneumonia-detection ML model and an OpenCV-based safety-kit detection system deployed for real-time monitoring.",
+    period: "2024 — 2025",
+    desc: "Developed a deep learning pneumonia detection model and a published YOLOv11/OpenCV safety-kit compliance detection system for real-time monitoring.",
   },
 ];
 
@@ -1344,58 +969,58 @@ const academicMilestones: AcademicMilestone[] = [
   {
     id: "btech-ai",
     title: "B.Tech, Artificial Intelligence",
-    org: "College of Engineering",
+    org: "St. Vincent Pallotti College of Engineering and Technology, Nagpur",
     period: "2022 — 2026",
     icon: GraduationCap,
     images: [btech1, batch2026, aiverse, baitak, baitak2],
     summary:
-      "Specializing in Artificial Intelligence and Machine Learning. Acquired deep theoretical and practical knowledge in neural networks, computer vision, data structures, and software engineering principles through academic projects and lab research.",
+      "Specialized in Artificial Intelligence and Machine Learning (CGPA: 7.18). Acquired strong theoretical and practical foundations in deep learning, computer vision, data structures, and full-stack software engineering.",
     achievements: [
-      "Built soil-erosion decision support system using RUSLE & R at ICAR-NBSS&LUP",
-      "Developed real-time OpenCV safety-kit detection system",
-      "Pneumonia detection ML model with high accuracy metric results",
-      "Published AI & Web development project showcases",
+      "Built Soil Erosion Decision Support System using RUSLE & R at ICAR-NBSS&LUP",
+      "Published research paper on real-time YOLOv11 & OpenCV Safety Kit Detection",
+      "Elected Cultural Fest Coordinator & served as Training and Placement Coordinator",
+      "Cleared NPTEL examination on OpenCV and participated in national hackathons",
     ],
     skills: [
       "Artificial Intelligence",
       "Machine Learning",
-      "Python & C++",
-      "OpenCV",
-      "Data Science",
-      "React & Web Dev",
+      "Python & R",
+      "YOLOv11 & OpenCV",
+      "Geospatial AI",
+      "React & TypeScript",
     ],
   },
   {
     id: "junior-college",
-    title: "11th and 12th (HSC - PCM)",
+    title: "11th and 12th (HSC — PCM)",
     org: "IINSIGHT Junior College, Nagpur",
     period: "2020 — 2022",
     icon: GraduationCap,
     images: [iinsight1, iinsight2],
     summary:
-      "Chose the Physics, Chemistry, and Mathematics (PCM) stream, developing analytical thinking, problem-solving skills, and a strong mathematical baseline required for advanced AI and engineering studies.",
+      "Completed Higher Secondary Education in the Physics, Chemistry, and Mathematics (PCM) stream, scoring 87% in 12th standard board examinations and 86 percentile in MHT-CET.",
     achievements: [
-      "Completed Higher Secondary Education with top marks in Mathematics & Physics",
+      "Scored 87% in 12th HSC Board Examinations and 86 percentile in MHT-CET",
       "Participated in regional Science & Technology exhibitions",
-      "Developed early interest in programming and computer algorithms",
+      "Developed strong analytical and mathematical foundations for engineering",
     ],
     skills: ["Physics & Mathematics", "Analytical Logic", "Scientific Method", "Problem Solving"],
   },
   {
     id: "schooling",
     title: "Secondary Schooling (SSC)",
-    org: "Swarnleela International School",
+    org: "Swarneela International School, Wani",
     period: "2016 — 2020",
     icon: GraduationCap,
     images: [swarneela, flagParade, batchCeremony, councilMembers],
     summary:
-      "Formative academic years focused on foundational STEM subjects, leadership skills, and extracurricular activities that built confidence, teamwork, and critical reasoning.",
+      "Formative academic years focused on foundational STEM subjects, student leadership, and extracurricular initiatives. Elected as School Council Member with 60% of student votes.",
     achievements: [
+      "Elected School Council Member with 60% of the student vote",
       "Secured academic excellence awards throughout secondary education",
-      "Active participant in inter-school science competitions and debate clubs",
-      "Led school technology & academic group activities",
+      "Active participant in inter-school science competitions and leadership clubs",
     ],
-    skills: ["Mathematics Basis", "Public Speaking", "Teamwork", "Academic Discipline"],
+    skills: ["Leadership", "Public Speaking", "Teamwork", "Academic Discipline"],
   },
 ];
 
@@ -1417,7 +1042,7 @@ function ExperienceEducation() {
             </p>
             <h3 className="mt-2 text-2xl font-semibold">Professional Journey</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Work and projects that shaped my skills.
+              Work and research roles that shaped my engineering expertise.
             </p>
           </div>
           <div className="space-y-5">
@@ -1581,7 +1206,6 @@ const projects: ProjectItem[] = [
     summary:
       "Developed at ICAR-NBSS&LUP, this GIS & R-based Decision Support System calculates soil erosion risks using Revised Universal Soil Loss Equation (RUSLE) modeling. It translates satellite geospatial data into actionable conservation strategies for agricultural planners.",
     img: soil1,
-
     images: [soil1, icar3, icar2, icar1],
     tags: ["R Language", "RUSLE", "Data Science", "GIS"],
     category: "AI",
@@ -1591,7 +1215,6 @@ const projects: ProjectItem[] = [
       "Automated PDF reporting for land use planners and policy makers",
       "Integration with R Shiny dashboard for interactive scenario analysis",
     ],
-    demoUrl: "#",
     githubUrl: "https://github.com/vedantbutle19",
   },
   {
@@ -1600,8 +1223,8 @@ const projects: ProjectItem[] = [
     desc: "A digital health platform to help patients and doctors manage medical records smoothly and securely.",
     summary:
       "Aarogyam is a modern electronic healthcare vault platform designed to streamline medical history, prescription sharing, and appointment tracking. It empowers patients with control over their health data while enabling doctors to access vital records with end-to-end encryption.",
-    img: "/images/projects/aarogyam_1.jpg",
-    images: ["/images/projects/aarogyam_1.jpg"],
+    img: aarogyam1,
+    images: [aarogyam1],
     tags: ["Healthcare", "Web App", "UI/UX", "React"],
     category: "Web",
     features: [
@@ -1610,7 +1233,6 @@ const projects: ProjectItem[] = [
       "Encrypted cloud document storage & instant download",
       "Responsive design with seamless dark/light mode UI",
     ],
-    demoUrl: "#",
     githubUrl: "https://github.com/vedantbutle19",
   },
   {
@@ -1620,7 +1242,6 @@ const projects: ProjectItem[] = [
     summary:
       "An artificial intelligence solution leveraging deep convolutional neural networks to classify chest X-ray images. Built to assist radiographers in high-volume clinics with fast, high-accuracy preliminary diagnostics.",
     img: pneumoniaProject1,
-
     images: [pneumoniaProject1, pneumonia1, pneumonia2],
     tags: ["Machine Learning", "Python", "Medical AI", "PyTorch"],
     category: "AI",
@@ -1630,19 +1251,17 @@ const projects: ProjectItem[] = [
       "Web interface for instant radiograph upload and inference",
       "High accuracy and sensitivity metrics on validation benchmarks",
     ],
-    demoUrl: "#",
     githubUrl: "https://github.com/vedantbutle19",
   },
   {
     id: "safety-kit",
     title: "Safety Kit Detection",
-    desc: "Computer vision solution using OpenCV to detect whether workers are wearing required safety gear.",
+    desc: "Computer vision solution using YOLOv11 & OpenCV to detect whether workers are wearing required safety gear.",
     summary:
-      "A real-time computer vision system tailored for industrial safety compliance. Uses OpenCV and object detection models to monitor live camera streams and alert supervisors when helmets or high-visibility vests are missing.",
+      "A real-time computer vision system tailored for industrial safety compliance. Uses YOLOv11 and OpenCV object detection models to monitor live camera streams and alert supervisors when helmets or high-visibility vests are missing.",
     img: ppekit5,
-
     images: [ppekitMain, ppekit3, ppekit4, ppekit5],
-    tags: ["OpenCV", "Computer Vision", "Safety", "Python"],
+    tags: ["YOLOv11", "OpenCV", "Computer Vision", "Python"],
     category: "AI",
     features: [
       "Real-time multi-person safety gear tracking via video feeds",
@@ -1650,7 +1269,6 @@ const projects: ProjectItem[] = [
       "Instant alert logging and compliance dashboard",
       "Optimized model inference for edge devices and IP cameras",
     ],
-    demoUrl: "#",
     githubUrl: "https://github.com/vedantbutle19",
   },
   {
@@ -1658,9 +1276,8 @@ const projects: ProjectItem[] = [
     title: "आपला शेतकरी (Farmer Assistant)",
     desc: "Smart Farming & AI-Powered Agricultural Decision Support Platform.",
     summary:
-      "comprehensive digital farming platform for Indian farmers, combining farmmanagement, crop monitoring, weather intelligence, AI- based agricultural assistance, financial tracking, government schemes, farming news, and field surveillance.",
+      "Comprehensive digital farming platform for Indian farmers, combining farm management, crop monitoring, weather intelligence, AI-based agricultural assistance, financial tracking, government schemes, farming news, and field surveillance.",
     img: aaplaShetkariPoster,
-
     images: [aaplaShetkariPoster, aaplaShetkari1, aaplaShetkari2, aaplaShetkari3],
     tags: ["LLM", "Agriculture", "Smart Farming", "Voice AI"],
     category: "UI",
@@ -1670,7 +1287,6 @@ const projects: ProjectItem[] = [
       "Real-time market price updates and local weather advisory",
       "Intuitive high-contrast mobile interface tailored for rural users",
     ],
-    demoUrl: "#",
     githubUrl: "https://github.com/vedantbutle19",
   },
 ];
@@ -1755,7 +1371,7 @@ function Projects() {
                   }}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--mint)] transition-transform hover:translate-x-1"
                 >
-                  View Demo <ArrowRight className="h-4 w-4" />
+                  Explore Project <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </motion.article>
@@ -1806,7 +1422,7 @@ function Testimonials({ testimonials }: { testimonials: TestimonialItem[] }) {
 }
 
 /* ---------- Contact ---------- */
-function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialItem) => void }) {
+function Contact() {
   const [sent, setSent] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
@@ -1818,23 +1434,13 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
     const message = formData.message.trim();
     if (!name || !email || !message) return;
 
-    const initials = name
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part[0]?.toUpperCase() ?? "")
-      .join("");
-
-    onSendMessage({
-      text: message,
-      name,
-      role: email,
-      initials: initials || "U",
-    });
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:vedantvbutle@gmail.com?subject=${subject}&body=${body}`;
 
     setSent(true);
     setFormData({ name: "", email: "", message: "" });
-    setTimeout(() => setSent(false), 3500);
+    setTimeout(() => setSent(false), 4000);
   };
 
   return (
@@ -1882,7 +1488,7 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-glow)] transition-transform hover:scale-[1.02]"
             >
               {sent ? (
-                "Message sent ✓"
+                "Opening Email Client — Message Ready ✓"
               ) : (
                 <>
                   Send Message <Send className="h-4 w-4" />
@@ -1898,28 +1504,28 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
               <p className="mt-2 text-sm text-muted-foreground">
                 Reach out on any platform — I usually respond within 24 hours.
               </p>
-              <div className="mt-6 flex gap-3">
-                {[
-                  { href: "https://github.com/vedantbutle19", icon: Github, label: "GitHub" },
-                  { href: "#", icon: Twitter, label: "Twitter" },
-                  {
-                    href: "https://www.linkedin.com/in/vedant-butle-a4966126a/",
-                    icon: Linkedin,
-                    label: "LinkedIn",
-                  },
-                  {
-                    href: "https://www.instagram.com/vedantt_butlee/",
-                    icon: Instagram,
-                    label: "Instagram",
-                  },
-                  { href: "mailto:vedantvbutle@gmail.com", icon: Mail, label: "Email" },
-                ].map(({ href, icon: Icon, label }, i) => (
+              <div className="mt-4 space-y-2 text-sm text-muted-foreground">
+                <p>
+                  <strong className="text-foreground">Email:</strong>{" "}
                   <a
-                    key={i}
+                    href="mailto:vedantvbutle@gmail.com"
+                    className="text-[var(--mint)] hover:underline"
+                  >
+                    vedantvbutle@gmail.com
+                  </a>
+                </p>
+                <p>
+                  <strong className="text-foreground">Location:</strong> Nagpur, Maharashtra, India
+                </p>
+              </div>
+              <div className="mt-6 flex gap-3">
+                {socialLinks.map(({ href, icon: Icon, label, external }) => (
+                  <a
+                    key={label}
                     href={href}
                     aria-label={label}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
                     className="grid h-12 w-12 place-items-center rounded-full border border-border bg-card text-muted-foreground transition-all hover:-translate-y-1 hover:border-[var(--mint)] hover:text-[var(--mint)]"
                   >
                     <Icon className="h-5 w-5" />
@@ -1942,7 +1548,7 @@ function Contact({ onSendMessage }: { onSendMessage: (testimonial: TestimonialIt
 function Footer() {
   return (
     <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-      © 2026 Vedant's Portfolio. Crafted with care.
+      © {new Date().getFullYear()} Vedant Butle's Portfolio. Crafted with care.
     </footer>
   );
 }

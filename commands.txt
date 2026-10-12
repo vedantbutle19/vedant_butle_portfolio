@@ -1,0 +1,10 @@
+# Start Backend (Terminal 1)
+.\venv\Scripts\activate
+python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload --reload-dir backend
+# Or via npm:
+npm run dev:backend
+
+# Start Frontend (Terminal 2)
+npm run dev
+
+# Note: Knowledge files in /knowledge/*.md are loaded automatically on startup (no separate ingest step required).

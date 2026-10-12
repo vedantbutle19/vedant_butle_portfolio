@@ -7,10 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies & Virtual Environments
 node_modules
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build & Framework Caches
 dist
 dist-ssr
 .output
+.vercel
 .vinxi
 .tanstack/**
 .nitro
