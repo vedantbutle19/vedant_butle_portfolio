@@ -6,5 +6,9 @@ npm run dev:backend
 
 # Start Frontend (Terminal 2)
 npm run dev
-
 # Note: Knowledge files in /knowledge/*.md are loaded automatically on startup (no separate ingest step required).
+
+# github push
+git add .
+git commit -m "Clean up portfolio, sync knowledge base, and prepare for Vercel deployment"
+git push
